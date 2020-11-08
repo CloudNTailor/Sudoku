@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lay_wordsearch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cultured"
+    android:orientation="vertical">
+
+ <com.CloudNTailor.sudoku.GameEngine.SudokuLayout
+     android:id="@+id/game_board"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_alignParentLeft="true"
+     android:background="@color/iceberg"
+     android:visibility="invisible"
+     android:layout_alignParentStart="true">
+ </com.CloudNTailor.sudoku.GameEngine.SudokuLayout>
+
+    <LinearLayout
+        android:id="@+id/keypad1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/keypad2"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_one"
+            app:cb_color="?theme_color" />
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_two"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_two"
+            app:cb_color="?theme_color" />
+
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_three"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_three"
+            app:cb_color="?theme_color" />
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_four"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_four"
+            app:cb_color="?theme_color" />
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_five"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_five"
+            app:cb_color="?theme_color" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/keypad2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_six"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_six"
+            app:cb_color="?theme_color" />
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_seven"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_seven"
+            app:cb_color="?theme_color" />
+
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_eight"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_eight"
+            app:cb_color="?theme_color" />
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_nine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_nine"
+            app:cb_color="?theme_color" />
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_button_clear"
+            app:cb_color="?theme_color" />
+
+    </LinearLayout>
+</RelativeLayout>

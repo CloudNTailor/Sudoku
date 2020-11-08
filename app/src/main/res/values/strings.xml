@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Sudoku</string>
+    <string name="pref_key_language" translatable="false">language</string>
+    <string name="pref_summary_language">Select language for word list</string>
+    <string name="pref_title_language">Language</string>
+    <string name="pref_key_difficulty" translatable="false">difficulty</string>
+    <string name="pref_summary_difficulty">Select difficulty level for game</string>
+    <string name="pref_title_difficulty">Difficulty</string>
+    <string name="pref_level_names_easy">Easy</string>
+    <string name="pref_level_names_medium">Medium </string>
+    <string name="pref_level_names_hard">Hard</string>
+    <string name="pref_level_names_expert">Expert</string>
+    <string name="settings">Settings</string>
+</resources>

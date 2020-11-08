@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Sudoku</string>
+    <string name="pref_summary_language">Kelime listesi için dil seçin</string>
+    <string name="pref_title_language">Dil</string>
+    <string name="pref_summary_difficulty">Oyun için zorluk seviyesini seçin</string>
+    <string name="pref_title_difficulty">Zorluk</string>
+    <string name="pref_level_names_easy"> </string>
+    <string name="pref_level_names_medium"> </string>
+    <string name="pref_level_names_hard"> </string>
+    <string name="pref_level_names_expert"> </string>
+    <string name="settings">Ayarlar</string>
+</resources>

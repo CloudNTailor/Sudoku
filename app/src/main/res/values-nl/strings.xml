@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Sudoku</string>
+    <string name="pref_summary_language">Selecteer taal voor woordenlijst</string>
+    <string name="pref_title_language">Taal</string>
+    <string name="pref_summary_difficulty">Selecteer het moeilijkheidsniveau voor het spel</string>
+    <string name="pref_title_difficulty">Moeilijkheidsgraad</string>
+    <string name="pref_level_names_easy">Gemakkelijk</string>
+    <string name="pref_level_names_medium">Medium</string>
+    <string name="pref_level_names_hard">Moeilijk</string>
+    <string name="pref_level_names_expert">Deskundige</string>
+    <string name="settings">Instellingen</string>
+</resources>

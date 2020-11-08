@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="numbers_dark">#191919</color>
+    <color name="rasphery">#d21f3c</color>
+    <color name="cultured">#eff2f1</color>
+    <color name="maximumyellowred">#f4b942</color>
+    <color name="middleblugreen">#97d8c4</color>
+    <color name="iceberg">#7ca6cb</color>
+    <color name="ceruleanblue">#4059ad</color>
+    <color name="harbor_grey">#cdcdcd</color>
+    <color name="spacecadet">#28376B</color>
+</resources>

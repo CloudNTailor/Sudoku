@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="language_names">
+        <item>English</item>
+        <item>Türkçe</item>
+        <item>Deutsch</item>
+        <item>Español</item>
+        <item>Čeština</item>
+        <item>Dansk</item>
+        <item>Ελληνικά</item>
+        <item>Suomi</item>
+        <item>Français</item>
+        <item>Magyar</item>
+        <item>Italiano</item>
+        <item>Nederlands</item>
+        <item>Polski</item>
+        <item>Português</item>
+        <item>Română</item>
+        <item>Pусский</item>
+        <item>Svenska</item>
+    </string-array>
+
+    <string-array name="language_codes">
+        <item>en</item>
+        <item>tr</item>
+        <item>de</item>
+        <item>es</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>el</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>hu</item>
+        <item>it</item>
+        <item>nl</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>sv</item>
+    </string-array>
+
+    <string-array name="level_names">
+        <item>@string/pref_level_names_easy</item>
+        <item>@string/pref_level_names_medium</item>
+        <item>@string/pref_level_names_hard</item>
+        <item>@string/pref_level_names_expert</item>
+    </string-array>
+
+    <string-array name="level_codes">
+        <item>41</item>
+        <item>51</item>
+        <item>56</item>
+        <item>58</item>
+    </string-array>
+</resources>
