@@ -366,16 +366,48 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         int randomNumbers;
         int index=-1;
         List<Integer> possibleValues= new ArrayList<>();
-        for(int i =0;i<levelValue;i++)
+        int i=0;
+        int tempVal;
+        int failTime=0;
+        int[][] copyBoard = new int[9][9];
+        while (i<levelValue)
         {
+
+            for (int a = 0; a < board.length; a++) {
+                for (int b = 0; b < board[a].length; b++) {
+                    copyBoard[a][b]= board[a][b];
+                }
+            }
             possibleValues=findPossibleCellForErase();
             randomNumbers=rnd.nextInt(possibleValues.size());
             index=possibleValues.get(randomNumbers);
 
             int eRow = (int) Math.floor((double) index / (double) cols);
             int eCol = index % cols;
-
+            tempVal=board[eRow][eCol];
             board[eRow][eCol]=0;
+            if(solveThePuzzle()) {
+                i++;
+                copyBoard[eRow][eCol]=0;
+            }
+            else
+            {
+                failTime++;
+                if(failTime>81)
+                {
+                    selectNumbers();
+                    failTime=0;
+                    i=0;
+                    continue;
+                }
+            }
+            for (int a = 0; a < board.length; a++) {
+                for (int b = 0; b < board[a].length; b++) {
+                    board[a][b]= copyBoard[a][b];
+                }
+            }
+
+
         }
     }
 
@@ -515,4 +547,32 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         return true;
     }
 
+
+    private boolean solveThePuzzle()
+    {
+        boolean puzzleNotFinished =true;
+        SudokuGameProvider smgp = new SudokuGameProvider();
+        boolean foundAnyOnePossibleCell =false;
+        while (puzzleNotFinished) {
+            foundAnyOnePossibleCell=false;
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++){
+                    if(board[i][j]==0) {
+                        List<Integer> possibleNums = smgp.findPossibleNumbers(board, i, j);
+                        if (possibleNums.size() == 1) {
+                            board[i][j] = possibleNums.get(0);
+                            foundAnyOnePossibleCell = true;
+                        }
+                    }
+                }
+            }
+
+            if(!foundAnyOnePossibleCell)
+                return  false;
+            puzzleNotFinished=!checkBoardFinish();
+
+        }
+        return true;
+
+    }
 }

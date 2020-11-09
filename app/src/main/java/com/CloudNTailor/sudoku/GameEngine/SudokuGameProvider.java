@@ -9,18 +9,11 @@ public class SudokuGameProvider {
 
     public int[][] provideSudokuGame()
     {
-        int[][] array = { { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0 }};
+        int[][] array = newEmptyArray();
         int randomNum;
         Random rnd = new Random();
         List<Integer> possibleNums;
+        int tryTime=0;
         for(int i = 0;i<9;i++)
         {
 
@@ -33,13 +26,22 @@ public class SudokuGameProvider {
 
                 if (possibleNums.size() == 0)
                 {
-                    //if can't find any possible number then we start this row again
-                    for (int e = 0; e < y;e++)
-                    {
-                        array[i][ e] = 0;
+                    if(tryTime<3) {
+                        //if can't find any possible number then we start this row again
+                        for (int e = 0; e < y; e++) {
+                            array[i][e] = 0;
+                        }
+                        i--;
+                        tryTime++;
+                        break;
                     }
-                    i--;
-                    break;
+                    else
+                    {
+                        array=newEmptyArray();
+                        tryTime=0;
+                        i=-1;
+                        break;
+                    }
                 }
                 randomNum = rnd.nextInt(possibleNums.size());
                 array[i][ y] = possibleNums.get(randomNum);
@@ -117,7 +119,7 @@ public class SudokuGameProvider {
         return true;
     }
 
-    private List<Integer> findPossibleNumbers(int[][] array,int i,int y)
+    public List<Integer> findPossibleNumbers(int[][] array,int i,int y)
     {
         List<Integer> possibleNumber = new ArrayList<>();
         for(int randomNum = 1; randomNum <= 9; randomNum++)
@@ -132,4 +134,19 @@ public class SudokuGameProvider {
 
         return possibleNumber;
     }
+
+    private int[][] newEmptyArray()
+    {
+        int[][] array = { { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 }};
+        return array;
+    }
+
 }
