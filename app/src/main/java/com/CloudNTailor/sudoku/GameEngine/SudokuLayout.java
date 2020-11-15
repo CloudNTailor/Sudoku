@@ -61,6 +61,7 @@ public class SudokuLayout extends LinearLayout {
             for (int j = 0; j < cols; j++) {
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell, null);
                 view.setFocusable(true);
+
                 row.addView(view, lp);
             }
             addView(row, lp);

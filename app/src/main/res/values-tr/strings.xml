@@ -9,4 +9,10 @@
     <string name="pref_level_names_hard"> </string>
     <string name="pref_level_names_expert"> </string>
     <string name="settings">Ayarlar</string>
+    <string name="new_best_time">Yeni en iyi zaman</string>
+    <string name="pref_time_result">Süreniz:</string>
+    <string name="resume_game_button_text">Oyuna devam et</string>
+    <string name="new_game_button_text">Yeni Oyun</string>
+    <string name="exit_game_button_text">Oyundan çıkış</string>
+    <string name="congratulations">Tebrikler!</string>
 </resources>

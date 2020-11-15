@@ -9,4 +9,10 @@
     <string name="pref_level_names_hard">Moeilijk</string>
     <string name="pref_level_names_expert">Deskundige</string>
     <string name="settings">Instellingen</string>
+    <string name="new_best_time">Nieuwe beste tijd</string>
+    <string name="pref_time_result">Uw duur:</string>
+    <string name="resume_game_button_text">Spel hervatten</string>
+    <string name="new_game_button_text">Nieuw spel</string>
+    <string name="exit_game_button_text">Game afsluiten</string>
+    <string name="congratulations">Goed gedaan!</string>
 </resources>

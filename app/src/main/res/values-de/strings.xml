@@ -9,4 +9,10 @@
     <string name="pref_level_names_hard">Hart</string>
     <string name="pref_level_names_expert">Experte</string>
     <string name="settings">Einstellungen</string>
+    <string name="new_best_time">Neue Bestzeit</string>
+    <string name="pref_time_result">Ihre Dauer</string>
+    <string name="resume_game_button_text">Spiel fortsetzen</string>
+    <string name="new_game_button_text">Neues Spiel</string>
+    <string name="exit_game_button_text">Spiel verlassen</string>
+    <string name="congratulations">Gut gemacht!</string>
 </resources>

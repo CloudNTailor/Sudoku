@@ -3,9 +3,16 @@ package com.CloudNTailor.sudoku.GameActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.CloudNTailor.sudoku.GameEngine.SudokuGameProvider;
@@ -40,6 +47,20 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private CircleButton buttonEight;
     private CircleButton buttonNine;
     private CircleButton buttonClear;
+    private Chronometer simpleChronometer;
+    private RelativeLayout endGameMenu;
+    private Button shareButton;
+    private Button homeButton;
+    private Button endScreenNewGame;
+    private TextView pauseChronoText;
+    private TextView scoreTimeText;
+    private long timeWhenStopped = 0;
+    private CircleButton btn_pause_game;
+    private RelativeLayout pauseMenu;
+    private Button resumeButton;
+    private Button newButton;
+    private Button exitButton;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +68,8 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_game);
 
@@ -61,19 +84,30 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         buttonEight=(CircleButton)findViewById(R.id.btn_eight);
         buttonNine=(CircleButton)findViewById(R.id.btn_nine);
         buttonClear=(CircleButton)findViewById(R.id.btn_clear);
+        simpleChronometer= (Chronometer) findViewById(R.id.simpleChronometer);
+        endGameMenu=(RelativeLayout)findViewById(R.id.scorePage);
+        shareButton=(Button)findViewById(R.id.btn_share);
+        homeButton=(Button)findViewById(R.id.btn_return_main);
+        endScreenNewGame=(Button)findViewById(R.id.textEndButtonRestart);
+        scoreTimeText=(TextView)findViewById(R.id.scorePoint);
+        pauseChronoText=(TextView)findViewById(R.id.pauseChronoText);
+        pauseMenu = (RelativeLayout) findViewById(R.id.pauseMenu);
+        resumeButton=(Button)findViewById(R.id.textButtonResume);
+        newButton=(Button)findViewById(R.id.textButtonRestart);
+        exitButton=(Button)findViewById(R.id.textButtonExit);
 
     /*    resumeButton=(Button)findViewById(R.id.textButtonResume);
         newButton=(Button)findViewById(R.id.textButtonRestart);
         exitButton=(Button)findViewById(R.id.textButtonExit);
-        pauseChronoText=(TextView)findViewById(R.id.pauseChronoText);
+
         word_list_label_group = (RelativeLayout)findViewById(R.id.word_list_label_group);
         grd_word_list = (GridView)findViewById(R.id.grd_word_list);
         congratView = (RelativeLayout)findViewById(R.id.scorePage);
         upbanner=(RelativeLayout)findViewById(R.id.upbanner);
         scorePoint = (TextView)findViewById(R.id.scorePoint); */
         grid = (SudokuLayout) findViewById(R.id.game_board);
-       /* simpleChronometer= (Chronometer) findViewById(R.id.simpleChronometer);
-        pauseMenu = (RelativeLayout) findViewById(R.id.pauseMenu);
+       /*
+
         newBestScore =(TextView)findViewById(R.id.newBestText);
 
         mInterstitialAd = new InterstitialAd(this);
@@ -133,9 +167,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                             AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
                             anim.setDuration(500);
                             grid.startAnimation(anim);
-                           // simpleChronometer.setBase(SystemClock.elapsedRealtime());
-                           // simpleChronometer.stop();
-                            //simpleChronometer.start();
+                            simpleChronometer.setBase(SystemClock.elapsedRealtime());
+                            simpleChronometer.stop();
+                            simpleChronometer.start();
                         }
                     });
                 }
@@ -179,29 +213,21 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             if (dialog != null)
                 dialog.dismiss(); */
         }
- /*
+
         btn_pause_game = (CircleButton) findViewById(R.id.btn_pause);
         btn_pause_game.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                if (isPaused) {
-                    simpleChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
-                    simpleChronometer.start();
-                    isPaused = false;
-                    //btn_pause_game.setImageResource(R.mipmap.ic_pause_green);
-                    pauseMenu.setVisibility(View.INVISIBLE);
-                    grid.setEnabled(true);
-                } else {
+
                     pauseChronoText.setText(simpleChronometer.getText().toString());
                     timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
                     simpleChronometer.stop();
-                    isPaused = true;
                     //btn_pause_game.setImageResource(R.mipmap.ic_start_green);
                     pauseMenu.setVisibility(View.VISIBLE);
                     grid.setEnabled(false);
-                }
+
             }
         });
 
@@ -212,8 +238,6 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
                 simpleChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
                 simpleChronometer.start();
-                isPaused = false;
-                btn_pause_game.setImageResource(R.mipmap.ic_pause_green);
                 pauseMenu.setVisibility(View.INVISIBLE);
                 grid.setEnabled(true);
 
@@ -223,18 +247,16 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
             @Override
             public void onClick(View v) {
-                isPaused = false;
-                btn_pause_game.setImageResource(R.mipmap.ic_pause_green);
-                pauseMenu.setVisibility(View.INVISIBLE);
+               pauseMenu.setVisibility(View.INVISIBLE);
                 grid.setEnabled(true);
-                if (mInterstitialAd.isLoaded()) {
+               // if (mInterstitialAd.isLoaded()) {
 
-                    mInterstitialAd.show();
-                } else {
+                //    mInterstitialAd.show();
+                //} else {
 
                     startNewGame();
 
-                }
+                //}
 
             }
         });
@@ -245,7 +267,33 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 finish();
             }
         });
-*/
+
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        endScreenNewGame.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                endGameMenu.setVisibility(View.INVISIBLE);
+                startNewGame();
+            }
+        });
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                shareIt();
+            }
+        });
+
         buttonOne.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -476,7 +524,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     {
         if(checkBoardFinish())
         {
-            clearBoard();
+            String curTime =simpleChronometer.getText().toString();
+            scoreTimeText.setText(curTime);
+            endGameMenu.setVisibility(View.VISIBLE);
         }
 
     }
@@ -574,5 +624,48 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         }
         return true;
 
+    }
+
+    private void startNewGame() {
+        clearBoard();
+        selectNumbers();
+        prepareBoard();
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(1000);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        grid.startAnimation(anim);
+
+        simpleChronometer.startAnimation(anim);
+        grid.setEnabled(true);
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+        simpleChronometer.stop();
+        simpleChronometer.start();
+    }
+
+    private void shareIt(){
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Your body here";
+        String shareSub = "Your subject here";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSub);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share using"));
     }
 }

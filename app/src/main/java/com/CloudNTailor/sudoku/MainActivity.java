@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getActionBar();
         //if(actionBar != null)
         //	actionBar.hide();
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         if(langCode == null){
             Configuration config = getResources().getConfiguration();
             Locale locale = config.locale;
