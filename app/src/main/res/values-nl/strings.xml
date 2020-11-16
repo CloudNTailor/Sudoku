@@ -15,4 +15,6 @@
     <string name="new_game_button_text">Nieuw spel</string>
     <string name="exit_game_button_text">Game afsluiten</string>
     <string name="congratulations">Goed gedaan!</string>
+    <string name="main_menu">Hoofdmenu</string>
+    <string name="share">Delen</string>
 </resources>

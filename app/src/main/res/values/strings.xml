@@ -17,4 +17,14 @@
     <string name="new_game_button_text">New Game</string>
     <string name="exit_game_button_text">Exit Game</string>
     <string name="congratulations">Well Done!</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="share">Share</string>
+
+
+    <string name="admob_pid" translatable="false">ca-app-pub-8993153172324808~7687455198</string>
+    <string name="admob_banner_pid" translatable="false">ca-app-pub-8993153172324808/7009632494</string>
+    <string name="admob_interstitial_pid" translatable="false">ca-app-pub-8993153172324808/7173284025</string>
+    <string name="publisher_id" translatable="false">pub-8993153172324808</string>
+    <string name="privacy_policy_url" translatable="false">https://vocabflex.flycricket.io/privacy.html</string>
+
 </resources>

@@ -63,6 +63,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_one"
             app:cb_color="?theme_color" />
 
@@ -73,6 +74,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_two"
             app:cb_color="?theme_color" />
 
@@ -84,6 +86,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_three"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
@@ -93,6 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_four"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
@@ -102,6 +106,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_five"
             app:cb_color="?theme_color" />
 
@@ -110,7 +115,7 @@
         android:id="@+id/keypad2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/adView"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
@@ -121,6 +126,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_six"
             app:cb_color="?theme_color" />
 
@@ -131,6 +137,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_seven"
             app:cb_color="?theme_color" />
 
@@ -143,6 +150,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_button_eight"
+            android:layout_margin="@dimen/intro_button_margin"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
 
@@ -152,6 +160,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_button_nine"
+            android:layout_margin="@dimen/intro_button_margin"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
 
@@ -160,11 +169,21 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/intro_button_margin"
             android:src="@mipmap/ic_button_clear"
             app:cb_color="?theme_color" />
 
     </LinearLayout>
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/admob_banner_pid">
+    </com.google.android.gms.ads.AdView>
 
     <RelativeLayout
         android:id="@+id/scorePage"
@@ -210,7 +229,7 @@
             android:layout_centerInParent="true"
             android:text="@string/new_best_time"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16dp"
+            android:textSize="30dp"
             android:textColor="@color/cultured"
             android:visibility="invisible"
             android:gravity="center"
@@ -280,7 +299,7 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="5dp"
                 android:drawableLeft="@drawable/ic_menu_home"
-                android:text="Main Menu"
+                android:text="@string/main_menu"
                 android:textColor="@color/cultured"
                 android:color="@color/rasphery"
                 android:background="@android:color/transparent"
@@ -301,7 +320,7 @@
                 android:layout_gravity="center_horizontal"
                 android:drawableLeft="@drawable/ic_menu_share"
                 android:padding="5dp"
-                android:text="Share"
+                android:text="@string/share"
                 android:textColor="@color/cultured"
                 android:color="@color/rasphery"
                 android:background="@android:color/transparent"

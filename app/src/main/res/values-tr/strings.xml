@@ -4,10 +4,10 @@
     <string name="pref_title_language">Dil</string>
     <string name="pref_summary_difficulty">Oyun için zorluk seviyesini seçin</string>
     <string name="pref_title_difficulty">Zorluk</string>
-    <string name="pref_level_names_easy"> </string>
-    <string name="pref_level_names_medium"> </string>
-    <string name="pref_level_names_hard"> </string>
-    <string name="pref_level_names_expert"> </string>
+    <string name="pref_level_names_easy">Kolay</string>
+    <string name="pref_level_names_medium">Orta</string>
+    <string name="pref_level_names_hard">Zor</string>
+    <string name="pref_level_names_expert">Uzman</string>
     <string name="settings">Ayarlar</string>
     <string name="new_best_time">Yeni en iyi zaman</string>
     <string name="pref_time_result">Süreniz:</string>
@@ -15,4 +15,6 @@
     <string name="new_game_button_text">Yeni Oyun</string>
     <string name="exit_game_button_text">Oyundan çıkış</string>
     <string name="congratulations">Tebrikler!</string>
+    <string name="main_menu">Ana Menü</string>
+    <string name="share">Paylaş</string>
 </resources>

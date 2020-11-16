@@ -15,4 +15,6 @@
     <string name="new_game_button_text">Neues Spiel</string>
     <string name="exit_game_button_text">Spiel verlassen</string>
     <string name="congratulations">Gut gemacht!</string>
+    <string name="main_menu">Hauptmenü</string>
+    <string name="share">Teilen</string>
 </resources>

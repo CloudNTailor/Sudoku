@@ -15,10 +15,18 @@ import android.widget.Chronometer;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.CloudNTailor.sudoku.GameEngine.Converter;
+import com.CloudNTailor.sudoku.GameEngine.LocalDm;
 import com.CloudNTailor.sudoku.GameEngine.SudokuGameProvider;
 import com.CloudNTailor.sudoku.GameEngine.SudokuLayout;
+import com.CloudNTailor.sudoku.Pref.MyGDPR;
 import com.CloudNTailor.sudoku.Pref.Settings;
 import com.CloudNTailor.sudoku.R;
+import com.google.ads.mediation.admob.AdMobAdapter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +68,10 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private Button resumeButton;
     private Button newButton;
     private Button exitButton;
+    private TextView newBestScore;
+
+    private InterstitialAd mInterstitialAd;
+    private AdView mAdView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +107,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         resumeButton=(Button)findViewById(R.id.textButtonResume);
         newButton=(Button)findViewById(R.id.textButtonRestart);
         exitButton=(Button)findViewById(R.id.textButtonExit);
+        newBestScore =(TextView)findViewById(R.id.newBestText);
 
     /*    resumeButton=(Button)findViewById(R.id.textButtonResume);
         newButton=(Button)findViewById(R.id.textButtonRestart);
@@ -106,9 +119,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         upbanner=(RelativeLayout)findViewById(R.id.upbanner);
         scorePoint = (TextView)findViewById(R.id.scorePoint); */
         grid = (SudokuLayout) findViewById(R.id.game_board);
-       /*
 
-        newBestScore =(TextView)findViewById(R.id.newBestText);
+
+
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.admob_interstitial_pid));
@@ -127,7 +140,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
 
 
-*/
+
 
         cols = grid.getNumColumns();
         rows = grid.getNumRows();
@@ -282,7 +295,13 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             @Override
             public void onClick(View v) {
                 endGameMenu.setVisibility(View.INVISIBLE);
-                startNewGame();
+                grid.setEnabled(true);
+                 if (mInterstitialAd.isLoaded()) {
+
+                    mInterstitialAd.show();
+                } else {
+                     startNewGame();
+                 }
             }
         });
 
@@ -376,6 +395,10 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             //puzzleFinished();
     }
 
+    private void requestNewInterstitial() {
+        mInterstitialAd.loadAd(new AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
+    }
 
     private void showDialog(){
         dialog = new ProgressDialog(this);
@@ -526,9 +549,28 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         {
             String curTime =simpleChronometer.getText().toString();
             scoreTimeText.setText(curTime);
+            addBestScore(curTime);
             endGameMenu.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    private void addBestScore(String value)
+    {
+        LocalDm bestScoreOperation = new LocalDm();
+        String currentDifLev = Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null);
+        String currentBestScore =  bestScoreOperation.getSharedPreference(this,currentDifLev,"00:00");
+
+        int newV=Converter.GetSecondsFromDurationString(value);
+        int currentV = Converter.GetSecondsFromDurationString(currentBestScore);
+
+        if(currentV==0 || newV<currentV)
+        {
+            newBestScore.setVisibility(View.VISIBLE);
+            bestScoreOperation.setSharedPreferenceString(this,currentDifLev,value);
+        }
+        else
+            newBestScore.setVisibility(View.INVISIBLE);
     }
 
     private boolean checkSmallMatrix(int a,int b,int value)
