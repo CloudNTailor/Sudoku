@@ -3,6 +3,7 @@ package com.CloudNTailor.sudoku;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -14,15 +15,20 @@ import com.CloudNTailor.sudoku.GameActivity.GameActivity;
 import com.CloudNTailor.sudoku.Pref.SettingsActivity;
 import com.CloudNTailor.sudoku.Pref.Settings;
 import com.CloudNTailor.sudoku.Pref.Constants;
+import com.CloudNTailor.sudoku.StaticsActivity.StaticsActivity;
 
 import java.sql.BatchUpdateException;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+import at.markushi.ui.CircleButton;
+
+public class MainActivity extends Activity {
 
 
     private Button newButton;
     private Button prefButton;
+    private Button statButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         String langCode = Settings.getStringValue(this, getResources().getString(R.string.pref_key_language), null);
         String difLevel = Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null);
         ActionBar actionBar = getActionBar();
-        //if(actionBar != null)
-        //	actionBar.hide();
+        if(actionBar != null)
+        	actionBar.hide();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         if(langCode == null){
             Configuration config = getResources().getConfiguration();
@@ -77,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        newButton=(Button)findViewById(R.id.textButtonPref);
-        newButton.setOnClickListener(new View.OnClickListener() {
+        prefButton=(Button) findViewById(R.id.textSetting);
+        prefButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -89,6 +95,17 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        statButton=(Button) findViewById(R.id.textStatic);
+        statButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, StaticsActivity.class);
+                startActivity(intent);
+
+
+            }
+        });
     }
 }

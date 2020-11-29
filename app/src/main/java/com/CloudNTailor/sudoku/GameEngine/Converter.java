@@ -23,4 +23,48 @@ public class Converter {
 
         return seconds + (minutes*60) + (hours*3600);
     }
+
+    public  static String GetDurationFromSecondsLong(long Value)
+    {
+        String returnVal="";
+        long p1 = Value % 60;
+        long p2 = Value / 60;
+        long p3 = p2 % 60;
+        p2 = p2 / 60;
+
+        if(p2>0)
+        {
+            returnVal=returnVal+padLeftZeros(Long.toString(p2),2)+":";
+        }
+        if(p3>0)
+        {
+            returnVal=returnVal+padLeftZeros(Long.toString(p3),2)+":";
+        }
+        else
+        {
+            returnVal=returnVal+"00"+":";
+        }
+        if(p1>0)
+        {
+            returnVal=returnVal+padLeftZeros(Long.toString(p1),2);
+        }
+        else
+        {
+            returnVal=returnVal+"00";
+        }
+
+        return returnVal;
+    }
+    public static String padLeftZeros(String inputString, int length) {
+        if (inputString.length() >= length) {
+            return inputString;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - inputString.length()) {
+            sb.append('0');
+        }
+        sb.append(inputString);
+
+        return sb.toString();
+    }
 }

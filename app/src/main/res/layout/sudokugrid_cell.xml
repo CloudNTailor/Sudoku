@@ -13,7 +13,7 @@
         android:text=" "
         android:textColor="@color/numbers_dark"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dp"
+        android:textSize="@dimen/word_size"
         android:background="@drawable/layout_border"
         android:textStyle="bold"
         />

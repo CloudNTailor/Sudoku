@@ -5,6 +5,8 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="numbers_dark">#191919</color>
+    <color name="numbers_blue">#1167b1</color>
+    <color name="numbers_green">#006a4e</color>
     <color name="rasphery">#d21f3c</color>
     <color name="cultured">#eff2f1</color>
     <color name="maximumyellowred">#f4b942</color>

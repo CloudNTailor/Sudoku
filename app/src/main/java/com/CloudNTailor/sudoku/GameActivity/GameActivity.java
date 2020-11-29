@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.CloudNTailor.sudoku.GameEngine.Converter;
+import com.CloudNTailor.sudoku.GameEngine.GameAction;
 import com.CloudNTailor.sudoku.GameEngine.LocalDm;
 import com.CloudNTailor.sudoku.GameEngine.SudokuGameProvider;
 import com.CloudNTailor.sudoku.GameEngine.SudokuLayout;
@@ -39,6 +40,7 @@ import at.markushi.ui.CircleButton;
 public  class GameActivity extends Activity implements SudokuLayout.OnCellHighlightedListener {
 
     private int[][] board;
+    private int[][] finishedBoard;
     private int rows = 9;
     private int cols = 9;
     private SudokuLayout grid;
@@ -69,6 +71,12 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private Button newButton;
     private Button exitButton;
     private TextView newBestScore;
+    private int selectedRowF;
+    private int selectedColumnF;
+    private Button undoButton;
+    private Button hintButton;
+
+    private List<GameAction> allMove;
 
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
@@ -85,6 +93,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_game);
 
+        allMove= new ArrayList<>();
 
         buttonOne=(CircleButton)findViewById(R.id.btn_one);
         buttonTwo=(CircleButton)findViewById(R.id.btn_two);
@@ -108,7 +117,8 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         newButton=(Button)findViewById(R.id.textButtonRestart);
         exitButton=(Button)findViewById(R.id.textButtonExit);
         newBestScore =(TextView)findViewById(R.id.newBestText);
-
+        undoButton = (Button)findViewById(R.id.btn_undo);
+        hintButton = (Button)findViewById(R.id.btn_hint);
     /*    resumeButton=(Button)findViewById(R.id.textButtonResume);
         newButton=(Button)findViewById(R.id.textButtonRestart);
         exitButton=(Button)findViewById(R.id.textButtonExit);
@@ -145,6 +155,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         cols = grid.getNumColumns();
         rows = grid.getNumRows();
         board = new int[rows][cols];
+        finishedBoard= new int[rows][cols];
        //lock = new boolean[rows][cols];
 
         if (savedInstanceState != null && savedInstanceState.get("words") == null)
@@ -384,6 +395,55 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 pushedButton(0);
             }
         });
+        undoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(allMove.size()>0) {
+                    GameAction act = allMove.get(allMove.size() - 1);
+                    View selectedView = grid.findChildByPosition((act.getI() * 9 + act.getJ()));
+                    if (act.getCurVal() > 0) {
+                        ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(act.getCurVal()));
+                    } else {
+                        ((TextView) selectedView.findViewById(R.id.number)).setText(" ");
+                    }
+                    allMove.remove(allMove.size() - 1);
+                }
+            }
+        });
+        hintButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Random rnd = new Random();
+                int randomNum;
+                int hintCell;
+                List<Integer> freeCell = new ArrayList<>();
+
+                for (int i = 0; i < board.length; i++) {
+                    for (int j = 0; j < board[i].length; j++) {
+                        if(board[i][j]==0)
+                        {
+                            freeCell.add((i*9)+j);
+                        }
+                    }
+                }
+
+                randomNum = rnd.nextInt(freeCell.size());
+
+                hintCell=freeCell.get(randomNum);
+                int row = hintCell / cols;
+                int col = hintCell % cols;
+
+                View selectedView = grid.findChildByPosition(hintCell);
+
+                board[row][col]=finishedBoard[row][col];
+
+                ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(finishedBoard[row][col]));
+                ((TextView) selectedView.findViewById(R.id.number)).setTextColor(getResources().getColor(R.color.numbers_green));
+                //gameFinished();
+            }
+        });
     }
 
     public void cellHighlighted(Integer position) {
@@ -497,22 +557,35 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private void selectNumbers(){
         SudokuGameProvider smgp = new SudokuGameProvider();
         board = smgp.provideSudokuGame();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                finishedBoard[i][j]= board[i][j];
+            }
+        }
+
     }
     private void pushedButton(int value)
     {
         View selectedView=grid.getcurrentSelectedView();
+
         if(selectedView!=null) {
-            int selectedRow=grid.getSelectedRow();
-            int selectedColumn = grid.getSelectedColumn();
+             selectedRowF=grid.getSelectedRow();
+             selectedColumnF = grid.getSelectedColumn();
             if(value>0) {
                 ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(value));
+                ((TextView) selectedView.findViewById(R.id.number)).setTextColor(getResources().getColor(R.color.numbers_blue));
             }
             else
             {
                 ((TextView) selectedView.findViewById(R.id.number)).setText(" ");
             }
-            board[selectedRow][selectedColumn]=value;
-            selectedView.setBackgroundColor( grid.getCellBackGroudColor(selectedRow,selectedColumn));
+            GameAction act = new GameAction();
+            act.setI(selectedRowF);
+            act.setJ(selectedColumnF);
+            act.setCurVal(board[selectedRowF][selectedColumnF]);
+            allMove.add(act);
+            board[selectedRowF][selectedColumnF]=value;
+            selectedView.setBackgroundColor( grid.getCellBackGroudColor(selectedRowF,selectedColumnF));
             grid.deleteSelectedView();
             if(value>0)
                 gameFinished();

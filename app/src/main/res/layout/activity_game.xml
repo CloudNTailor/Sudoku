@@ -49,10 +49,77 @@
  </com.CloudNTailor.sudoku.GameEngine.SudokuLayout>
 
     <LinearLayout
-        android:id="@+id/keypad1"
+        android:id="@+id/hint_undo_panel"
+        android:layout_below="@+id/game_board"
+        android:layout_above="@+id/keypad1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:orientation="horizontal">
+
+        <Button
+
+            android:id="@+id/btn_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:drawableLeft="@android:drawable/ic_menu_revert"
+            android:text="@string/btn_undo"
+            android:textColor="@color/cultured"
+            android:color="@color/rasphery"
+            android:background="@color/rasphery"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentBottom="true"/>
+
+        <Button
+
+            android:id="@+id/btn_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@android:drawable/ic_menu_help"
+            android:padding="5dp"
+            android:text="@string/btn_hint"
+            android:textColor="@color/cultured"
+            android:color="@color/rasphery"
+            android:background="@color/rasphery"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentBottom="true"/>
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/keypad2"
+        android:layout_below="@+id/hint_undo_panel"
+        android:layout_above="@id/adView">
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         android:layout_weight="1"
+         android:layout_alignParentBottom="true">
+    <LinearLayout
+        android:id="@+id/keypad1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
@@ -64,6 +131,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_one"
             app:cb_color="?theme_color" />
 
@@ -75,6 +143,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_two"
             app:cb_color="?theme_color" />
 
@@ -87,6 +156,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_three"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
@@ -97,6 +167,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_four"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
@@ -114,8 +185,8 @@
     <LinearLayout
         android:id="@+id/keypad2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/adView"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
@@ -127,6 +198,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_six"
             app:cb_color="?theme_color" />
 
@@ -138,6 +210,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_seven"
             app:cb_color="?theme_color" />
 
@@ -151,6 +224,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_button_eight"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
 
@@ -160,6 +234,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_button_nine"
+            android:padding="@dimen/circle_button_padding"
             android:layout_margin="@dimen/intro_button_margin"
             app:cb_color="?theme_color" />
         <at.markushi.ui.CircleButton
@@ -170,11 +245,13 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/intro_button_margin"
+            android:padding="@dimen/circle_button_padding"
             android:src="@mipmap/ic_button_clear"
             app:cb_color="?theme_color" />
 
     </LinearLayout>
-
+     </LinearLayout>
+    </RelativeLayout>
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"
@@ -184,6 +261,7 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/admob_banner_pid">
     </com.google.android.gms.ads.AdView>
+
 
     <RelativeLayout
         android:id="@+id/scorePage"
@@ -290,6 +368,7 @@
             android:orientation="horizontal"
             android:layout_alignParentBottom="true">
 
+
             <Button
 
                 android:id="@+id/btn_return_main"
@@ -312,7 +391,6 @@
                 android:layout_alignParentBottom="true"/>
 
             <Button
-
                 android:id="@+id/btn_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -374,7 +452,7 @@
 
             <Button
                 android:id="@+id/textButtonResume"
-                android:layout_width="200dp"
+                android:layout_width="@dimen/button_width_size"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -392,7 +470,7 @@
 
             <Button
                 android:id="@+id/textButtonRestart"
-                android:layout_width="200dp"
+                android:layout_width="@dimen/button_width_size"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -410,7 +488,7 @@
                 />
             <Button
                 android:id="@+id/textButtonExit"
-                android:layout_width="200dp"
+                android:layout_width="@dimen/button_width_size"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"

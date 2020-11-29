@@ -21,6 +21,11 @@
             android:label="@string/settings"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity
+            android:name=".StaticsActivity.StaticsActivity"
+            android:label="@string/info_statistics"
+            android:configChanges="orientation|screenSize">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

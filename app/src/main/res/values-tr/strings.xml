@@ -17,4 +17,18 @@
     <string name="congratulations">Tebrikler!</string>
     <string name="main_menu">Ana Menü</string>
     <string name="share">Paylaş</string>
+    <string name="preferences_button_text">Tercihler</string>
+    <string name="statistics_button_text">İstatistikler</string>
+    <string name="btn_undo">Geri al</string>
+    <string name="btn_hint">İpucu</string>
+    <string name="info_total_play">Toplam Oyun</string>
+    <string name="info_total_win">Toplam Galibiyet</string>
+    <string name="info_total_win_wh">İpucu olmadan toplam galibiyet</string>
+    <string name="info_average_time">Ortalama süre</string>
+    <string name="info_statistics">İstatistik</string>
+    <string name="dialog_yes">Evet</string>
+    <string name="dialog_no">Hayır</string>
+    <string name="dialog_erase_data_text">İstatistikleri sıfırlamak istiyor musunuz?</string>
+    <string name="best_time">En iyi zamanlar</string>
+
 </resources>

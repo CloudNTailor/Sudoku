@@ -17,12 +17,21 @@ public class LocalDm {
         edit.putInt(key, value);
         edit.commit();
     }
+    public void setSharedPreferenceLong(Context context, String key, long value) {
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putLong(key, value);
+        edit.commit();
+    }
     public String getSharedPreference(Context context, String key, String defaultValue) {
         return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE).getString(key, defaultValue);
     }
 
     public int getSharedPreference(Context context, String key, int defaultValue) {
         return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE).getInt(key, defaultValue);
+    }
+    public long getSharedPreferenceLong(Context context, String key, long defaultValue) {
+        return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE).getLong(key, defaultValue);
     }
 
     public void clearSharedPreference(Context context){

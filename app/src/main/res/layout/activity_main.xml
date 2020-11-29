@@ -4,12 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cultured"
     tools:context=".MainActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/scorepagebackground"
+        android:scaleType="centerCrop"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:adjustViewBounds="true"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_launcher_old" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/banner"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
 
     <Button
         android:id="@+id/textButtonStart"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/button_width_size"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -21,24 +45,49 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="START"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/custom_button"
+        android:textColor="@color/rasphery"
+        android:text="@string/new_game_button_text"
         />
-    <Button
-        android:id="@+id/textButtonPref"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textButtonStart"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="SETTINGS"
-        />
+        <Button
+            android:id="@+id/textStatic"
+            android:layout_width="@dimen/button_width_size"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/custom_button"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/rasphery"
+            android:text="@string/statistics_button_text"
+            />
+        <Button
+            android:id="@+id/textSetting"
+            android:layout_width="@dimen/button_width_size"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/custom_button"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/rasphery"
+            android:text="@string/preferences_button_text"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -17,4 +17,18 @@
     <string name="congratulations">Goed gedaan!</string>
     <string name="main_menu">Hoofdmenu</string>
     <string name="share">Delen</string>
+    <string name="preferences_button_text">Voorkeuren</string>
+    <string name="statistics_button_text">Statistieken</string>
+    <string name="btn_undo">Ongedaan maken</string>
+    <string name="btn_hint">Wenk</string>
+    <string name="info_total_play">Totaal spelen</string>
+    <string name="info_total_win">Totale overwinning</string>
+    <string name="info_total_win_wh">Totaal aantal overwinningen zonder hint</string>
+    <string name="info_average_time">Gemiddelde tijd</string>
+    <string name="info_statistics">Statistieken</string>
+    <string name="dialog_yes">Ja</string>
+    <string name="dialog_no">Nee</string>
+    <string name="dialog_erase_data_text">Wil je statistieken resetten?</string>
+    <string name="best_time">Beste tijden</string>
+
 </resources>

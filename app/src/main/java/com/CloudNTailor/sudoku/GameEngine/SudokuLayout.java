@@ -89,7 +89,7 @@ public class SudokuLayout extends LinearLayout {
 
     }
 
-    private View findChildByPosition(int index) {
+    public View findChildByPosition(int index) {
         int row = (int) Math.floor((double) index / (double) cols);
         int col = index % cols;
         LinearLayout rowView = (LinearLayout) getChildAt(row);
@@ -131,6 +131,7 @@ public class SudokuLayout extends LinearLayout {
                 v.setBackgroundColor(getCellBackGroudColor(i,j));
                 if (curval != 0) {
                     ((TextView) v.findViewById(R.id.number)).setText("" + Integer.toString(curval));
+                    ((TextView) v.findViewById(R.id.number)).setTextColor(getResources().getColor(R.color.numbers_dark));
                 } else {
                     ((TextView) v.findViewById(R.id.number)).setText(" ");
                 }

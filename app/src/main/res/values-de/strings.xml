@@ -17,4 +17,18 @@
     <string name="congratulations">Gut gemacht!</string>
     <string name="main_menu">Hauptmenü</string>
     <string name="share">Teilen</string>
+    <string name="preferences_button_text">Einstellungen</string>
+    <string name="statistics_button_text">Statistiken</string>
+    <string name="btn_undo">Rückgängig machen</string>
+    <string name="btn_hint">Hinweis</string>
+    <string name="info_total_play">Gesamtspiel</string>
+    <string name="info_total_win">Gesamtsieg</string>
+    <string name="info_total_win_wh">Total gewinnt ohne Hinweis</string>
+    <string name="info_average_time">Durchschnittliche Zeit</string>
+    <string name="info_statistics">Statistiken</string>
+    <string name="dialog_yes">Ja</string>
+    <string name="dialog_no">Nein</string>
+    <string name="dialog_erase_data_text">Möchten Sie Statistiken zurücksetzen?</string>
+    <string name="best_time">Beste Zeiten</string>
+
 </resources>
