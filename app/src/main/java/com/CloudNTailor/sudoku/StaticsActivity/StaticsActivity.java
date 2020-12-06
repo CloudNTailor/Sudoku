@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +42,8 @@ public class StaticsActivity extends Activity {
         setContentView(R.layout.activity_statistic);
         listView = (ListView) findViewById(R.id.listViewBestTime);
 
-        String[] stringArray = getResources().getStringArray(R.array.level_names);
+        String[] stringArray = getResources().getStringArray(R.array.level_codes);
+        String[] stringArrayLevelNames = getResources().getStringArray(R.array.level_names);
 
         for(int i = 0 ; i<stringArray.length;i++)
         {
@@ -59,7 +61,7 @@ public class StaticsActivity extends Activity {
                 avarageTime="--:--";
             }
 
-            bestTimeTable.add(new BestTimeModel(stringArray[i],
+            bestTimeTable.add(new BestTimeModel(stringArrayLevelNames[i],
                     getResources().getString(R.string.info_total_play),Integer.toString(bestScoreOperation.getSharedPreference(this,stringArray[i]+"numsplayed",0)),
                     getResources().getString(R.string.info_total_win),Integer.toString(totalWin),
                     getResources().getString(R.string.info_total_win_wh),Integer.toString(totalWinWh),
@@ -136,8 +138,11 @@ public class StaticsActivity extends Activity {
             btm.setBestTimeResult("--:--");
             btm.setTotalPlayedResult("0");
             btm.setTotalWinResult("0");
+            btm.setTotalWinWHResult("0");
 
         }
         adapter.notifyDataSetChanged();
     }
+
+
 }

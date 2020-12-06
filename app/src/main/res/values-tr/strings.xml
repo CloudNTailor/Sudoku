@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sudoku</string>
+    <string name="app_name">SudokuMaster</string>
     <string name="pref_summary_language">Kelime listesi için dil seçin</string>
     <string name="pref_title_language">Dil</string>
     <string name="pref_summary_difficulty">Oyun için zorluk seviyesini seçin</string>
@@ -15,6 +15,7 @@
     <string name="new_game_button_text">Yeni Oyun</string>
     <string name="exit_game_button_text">Oyundan çıkış</string>
     <string name="congratulations">Tebrikler!</string>
+    <string name="gameover">Oyun bitti!</string>
     <string name="main_menu">Ana Menü</string>
     <string name="share">Paylaş</string>
     <string name="preferences_button_text">Tercihler</string>
@@ -30,5 +31,11 @@
     <string name="dialog_no">Hayır</string>
     <string name="dialog_erase_data_text">İstatistikleri sıfırlamak istiyor musunuz?</string>
     <string name="best_time">En iyi zamanlar</string>
+    <string name="pref_summary_sound_onoff">Ses Açık veya Kapalı</string>
+    <string name="pref_title_sound_onoff">Ses</string>
+    <string name="back_button_text">Mevcut oyundan çıkmak istiyor musunuz?</string>
+    <string name="mistake_text">Hata</string>
+    <string name="share_text">Hey, SudokuMaster\'da bir bulmacayı daha yeni bitirdim!</string>
+    <string name="share_using">ile paylaş</string>
 
 </resources>

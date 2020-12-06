@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sudoku</string>
+    <string name="app_name">SudokuMaster</string>
     <string name="pref_summary_language">Selecteer taal voor woordenlijst</string>
     <string name="pref_title_language">Taal</string>
     <string name="pref_summary_difficulty">Selecteer het moeilijkheidsniveau voor het spel</string>
@@ -15,6 +15,7 @@
     <string name="new_game_button_text">Nieuw spel</string>
     <string name="exit_game_button_text">Game afsluiten</string>
     <string name="congratulations">Goed gedaan!</string>
+    <string name="gameover">Spel is Over!</string>
     <string name="main_menu">Hoofdmenu</string>
     <string name="share">Delen</string>
     <string name="preferences_button_text">Voorkeuren</string>
@@ -30,5 +31,11 @@
     <string name="dialog_no">Nee</string>
     <string name="dialog_erase_data_text">Wil je statistieken resetten?</string>
     <string name="best_time">Beste tijden</string>
+    <string name="pref_summary_sound_onoff">Geluid aan of uit</string>
+    <string name="pref_title_sound_onoff">Geluid</string>
+    <string name="back_button_text">Wilt u het huidige spel verlaten?</string>
+    <string name="mistake_text">Vergissing</string>
+    <string name="share_text">Hé, ik heb zojuist weer een puzzel op SudokuMaster voltooid!</string>
+    <string name="share_using">deel via</string>
 
 </resources>

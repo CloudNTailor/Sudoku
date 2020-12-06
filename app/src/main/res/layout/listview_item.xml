@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:gravity="left"
-        android:textColor="@color/iceberg"
+        android:textColor="@color/primaryblue"
         android:textSize="@dimen/best_time_table_size" />
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textAlignment="gravity"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
     </LinearLayout>
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textAlignment="gravity"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
     </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textAlignment="gravity"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
     </LinearLayout>
@@ -112,7 +112,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -122,7 +122,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textAlignment="gravity"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
     </LinearLayout>
@@ -139,7 +139,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -149,7 +149,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textAlignment="gravity"
-            android:textColor="@color/iceberg"
+            android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
     </LinearLayout>

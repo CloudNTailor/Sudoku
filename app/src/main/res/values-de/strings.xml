@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sudoku</string>
+    <string name="app_name">SudokuMaster</string>
     <string name="pref_summary_language">Wählen Sie die Sprache für die Wortliste</string>
     <string name="pref_title_language">Sprache</string>
     <string name="pref_summary_difficulty">Wählen Sie den Schwierigkeitsgrad für das Spiel</string>
@@ -15,6 +15,7 @@
     <string name="new_game_button_text">Neues Spiel</string>
     <string name="exit_game_button_text">Spiel verlassen</string>
     <string name="congratulations">Gut gemacht!</string>
+    <string name="gameover">Spiel ist aus!</string>
     <string name="main_menu">Hauptmenü</string>
     <string name="share">Teilen</string>
     <string name="preferences_button_text">Einstellungen</string>
@@ -30,5 +31,11 @@
     <string name="dialog_no">Nein</string>
     <string name="dialog_erase_data_text">Möchten Sie Statistiken zurücksetzen?</string>
     <string name="best_time">Beste Zeiten</string>
+    <string name="pref_summary_sound_onoff">Ton ein oder aus</string>
+    <string name="pref_title_sound_onoff">Klang</string>
+    <string name="back_button_text">Möchten Sie das aktuelle Spiel beenden?</string>
+    <string name="mistake_text">Fehler</string>
+    <string name="share_text">Hey, ich habe gerade ein weiteres Puzzle auf SudokuMaster beendet!</string>
+    <string name="share_using">Teilen per</string>
 
 </resources>

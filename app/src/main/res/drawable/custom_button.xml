@@ -3,8 +3,8 @@
     <solid android:color="@color/cultured"/>
     <corners android:radius="20dp"/>
     <gradient
-        android:startColor="@color/cultured"
-        android:centerColor="@color/cultured"
-        android:endColor="@color/cultured"
+        android:startColor="@color/primaryblue"
+        android:centerColor="@color/primaryblue"
+        android:endColor="@color/primaryblue"
         ></gradient>
 </shape>

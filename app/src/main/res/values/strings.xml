@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Sudoku</string>
+    <string name="app_name">SudokuMaster</string>
     <string name="pref_key_language" translatable="false">language</string>
     <string name="pref_summary_language">Select language for word list</string>
     <string name="pref_title_language">Language</string>
     <string name="pref_key_difficulty" translatable="false">difficulty</string>
+    <string name="pref_key_sound_onoff" translatable="false">soundOnOff</string>
     <string name="pref_summary_difficulty">Select difficulty level for game</string>
     <string name="pref_title_difficulty">Difficulty</string>
     <string name="pref_level_names_easy">Easy</string>
@@ -12,11 +13,12 @@
     <string name="pref_level_names_expert">Expert</string>
     <string name="settings">Settings</string>
     <string name="new_best_time">New Best Time</string>
-    <string name="pref_time_result">Your duration:</string>
+    <string name="pref_time_result">Duration:</string>
     <string name="resume_game_button_text">Resume Game</string>
     <string name="new_game_button_text">New Game</string>
     <string name="exit_game_button_text">Exit Game</string>
     <string name="congratulations">Well Done!</string>
+    <string name="gameover">Game Over!</string>
     <string name="main_menu">Main Menu</string>
     <string name="share">Share</string>
     <string name="preferences_button_text">Preferences</string>
@@ -32,13 +34,19 @@
     <string name="dialog_no">No</string>
     <string name="dialog_erase_data_text">Do you want to reset statistics?</string>
     <string name="best_time">Best Times</string>
+    <string name="pref_summary_sound_onoff">Sound On or Off</string>
+    <string name="pref_title_sound_onoff">Sound</string>
+    <string name="back_button_text">Do you want to exit current game?</string>
+    <string name="mistake_text">Mistake</string>
+    <string name="share_text">Hey, I just finished another puzzle on SudokuMaster!</string>
+    <string name="share_using">Share using</string>
 
+    <string name="admob_pid" translatable="false">ca-app-pub-8993153172324808~6608757339</string>
+    <string name="admob_banner_pid" translatable="false">ca-app-pub-8993153172324808/7055463986</string>
+    <string name="admob_interstitial_pid" translatable="false">ca-app-pub-8993153172324808/1555725296</string>
+    <string name="publisher_id" translatable="false">pub-8993153172324808</string>
+    <string name="admob_reward_pid" translatable="false">ca-app-pub-8993153172324808/8288401016</string>
 
-    <string name="admob_pid" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_pid" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_interstitial_pid" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="publisher_id" translatable="false">pub-3940256099942544</string>
-
-    <string name="privacy_policy_url" translatable="false">https://vocabflex.flycricket.io/privacy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://sudokumaster.flycricket.io/privacy.html</string>
 
 </resources>

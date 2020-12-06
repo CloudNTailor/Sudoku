@@ -13,45 +13,89 @@
         android:id="@+id/upbanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/primaryblue"
+            android:layout_toLeftOf="@+id/info_panel"
+            android:src="@drawable/sudokuheader"/>
+        <RelativeLayout
+            android:id="@+id/info_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btn_pause"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp">
         <Chronometer
             android:id="@+id/simpleChronometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/numbers_dark"
+            android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/ceruleanblue"
             android:gravity="center"
-            android:textSize="30sp"
+            android:textSize="20dp"
             android:textStyle="bold|italic"/>
+
+        </RelativeLayout>
 
         <at.markushi.ui.CircleButton
 
             android:id="@+id/btn_pause"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_alignParentRight="true"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
-            android:padding="5dp"
+            android:padding="2dp"
             android:layout_margin="1dp"
             android:src="@mipmap/ic_pause_green"
             app:cb_color="?theme_color" />
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/infobanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upbanner">
+
+        <TextView
+            android:id="@+id/difficultytext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/numbers_dark"
+            android:gravity="center"
+            android:text="Difficulty: Easy"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/mistaketext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/numbers_dark"
+            android:gravity="center"
+            android:text="Mistake: 0/3"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
     <com.CloudNTailor.sudoku.GameEngine.SudokuLayout
      android:id="@+id/game_board"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:layout_alignParentLeft="true"
-     android:layout_below="@+id/upbanner"
+     android:layout_below="@+id/infobanner"
      android:background="@color/iceberg"
      android:visibility="invisible"
-     android:layout_alignParentStart="true">
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true">
  </com.CloudNTailor.sudoku.GameEngine.SudokuLayout>
 
     <LinearLayout
         android:id="@+id/hint_undo_panel"
         android:layout_below="@+id/game_board"
-        android:layout_above="@+id/keypad1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -64,16 +108,16 @@
         <Button
 
             android:id="@+id/btn_undo"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
-            android:drawableLeft="@android:drawable/ic_menu_revert"
+            android:drawableLeft="@drawable/gery"
             android:text="@string/btn_undo"
-            android:textColor="@color/cultured"
-            android:color="@color/rasphery"
-            android:background="@color/rasphery"
+            android:textColor="@color/numbers_dark"
+            android:color="@color/primaryblue"
+            android:background="@drawable/customicon_button"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginBottom="8dp"
@@ -85,16 +129,16 @@
         <Button
 
             android:id="@+id/btn_hint"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
-            android:drawableLeft="@android:drawable/ic_menu_help"
+            android:drawableLeft="@drawable/ampul"
             android:padding="5dp"
             android:text="@string/btn_hint"
-            android:textColor="@color/cultured"
-            android:color="@color/rasphery"
-            android:background="@color/rasphery"
+            android:textColor="@color/numbers_dark"
+            android:color="@color/primaryblue"
+            android:background="@drawable/customicon_button"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginBottom="8dp"
@@ -271,9 +315,10 @@
         android:visibility="invisible">
 
         <ImageView
+            android:id="@+id/congsimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/scorepagebackground"
+            android:src="@drawable/sudokumasterscorebackgroud"
             android:scaleType="centerCrop"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -354,7 +399,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/custom_button"
             android:text="@string/new_game_button_text"
-            android:textColor="@color/rasphery"
+            android:textColor="@color/cultured"
             />
 
         <LinearLayout
@@ -465,7 +510,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/custom_button"
-                android:textColor="@color/rasphery"
+                android:textColor="@color/cultured"
                 android:text="@string/resume_game_button_text"/>
 
             <Button
@@ -483,7 +528,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/custom_button"
-                android:textColor="@color/rasphery"
+                android:textColor="@color/cultured"
                 android:text="@string/new_game_button_text"
                 />
             <Button
@@ -501,7 +546,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/custom_button"
-                android:textColor="@color/rasphery"
+                android:textColor="@color/cultured"
                 android:text="@string/exit_game_button_text"
                 />
         </LinearLayout>

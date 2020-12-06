@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:entries="@array/language_names"
-        android:entryValues="@array/language_codes"
-        android:key="@string/pref_key_language"
-        android:summary="@string/pref_summary_language"
-        android:title="@string/pref_title_language" />
 
     <ListPreference
         android:entries="@array/level_names"
@@ -14,5 +8,10 @@
         android:summary="@string/pref_summary_difficulty"
         android:title="@string/pref_title_difficulty"
         android:defaultValue="41"/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_sound_onoff"
+        android:summary="@string/pref_summary_sound_onoff"
+        android:title="@string/pref_title_sound_onoff"/>
 
 </PreferenceScreen>

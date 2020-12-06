@@ -7,15 +7,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
 import com.CloudNTailor.sudoku.GameActivity.GameActivity;
+import com.CloudNTailor.sudoku.Pref.MyGDPR;
 import com.CloudNTailor.sudoku.Pref.SettingsActivity;
 import com.CloudNTailor.sudoku.Pref.Settings;
 import com.CloudNTailor.sudoku.Pref.Constants;
 import com.CloudNTailor.sudoku.StaticsActivity.StaticsActivity;
+import com.google.android.gms.ads.MobileAds;
 
 import java.sql.BatchUpdateException;
 import java.util.Locale;
@@ -34,15 +38,20 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, this.getResources().getString(R.string.admob_pid));
         String langCode = Settings.getStringValue(this, getResources().getString(R.string.pref_key_language), null);
         String difLevel = Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null);
+        Boolean soundOnOff = Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_sound_onoff),true);
+        MobileAds.setAppMuted(!soundOnOff);
         ActionBar actionBar = getActionBar();
         if(actionBar != null)
         	actionBar.hide();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        Configuration config = getResources().getConfiguration();
+        Locale locale = config.locale;
         if(langCode == null){
-            Configuration config = getResources().getConfiguration();
-            Locale locale = config.locale;
+
+
             langCode = locale.getLanguage();
 
 
@@ -63,6 +72,8 @@ public class MainActivity extends Activity {
 
             Settings.saveStringValue(this, getResources().getString(R.string.pref_key_language), langCode);
         }
+
+        MyGDPR.updateConsentStatus(MainActivity.this);
 
         if(difLevel==null)
         {
