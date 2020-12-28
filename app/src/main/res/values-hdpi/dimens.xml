@@ -12,10 +12,23 @@
     <dimen name="word_size">20sp</dimen>
     <dimen name="best_time_table_size">25sp</dimen>
     <dimen name="pause_menu_time_size">50sp</dimen>
-    <dimen name="button_width_size">150dp</dimen>
+    <dimen name="button_width_size">175dp</dimen>
+    <dimen name="spinner_width_size">130dp</dimen>
     <dimen name="button_height_size">30dp</dimen>
     <dimen name="button_padding_size">5dp</dimen>
     <dimen name="button_margin_size">4dp</dimen>
     <dimen name="best_time_row_size">18sp</dimen>
+    <dimen name="statistics_del_button_size">40</dimen>
+    <dimen name="image_padding_with">50dp</dimen>
+    <dimen name="hintbuttonwidth">40dp</dimen>
+    <dimen name="hintbuttonheight">30dp</dimen>
+    <dimen name="hintbuttontextsize">14sp</dimen>
+    <dimen name="timetextsize">20sp</dimen>
+    <dimen name="timetexttoppadd">10dp</dimen>
+    <dimen name="welldonetextsize">40sp</dimen>
+    <dimen name="bestscoretextsize">30sp</dimen>
+    <dimen name="durationtextsize">24sp</dimen>
+
+
 
 </resources>

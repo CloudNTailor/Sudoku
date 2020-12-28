@@ -37,5 +37,6 @@
     <string name="mistake_text">Fehler</string>
     <string name="share_text">Hey, ich habe gerade ein weiteres Puzzle auf SudokuMaster beendet!</string>
     <string name="share_using">Teilen per</string>
+    <string name="continue_button_text">Fortsetzen</string>
 
 </resources>

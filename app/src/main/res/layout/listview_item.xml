@@ -26,6 +26,7 @@
             android:id="@+id/textViewTotalPlayText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
@@ -58,6 +59,7 @@
             android:gravity="left"
             android:layout_marginLeft="20dp"
             android:textColor="@color/primaryblue"
+            android:autoSizeTextType="uniform"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -86,6 +88,7 @@
             android:gravity="left"
             android:layout_marginLeft="20dp"
             android:textColor="@color/primaryblue"
+            android:autoSizeTextType="uniform"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
         <TextView
@@ -112,6 +115,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
+            android:autoSizeTextType="uniform"
             android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />
@@ -139,6 +143,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginLeft="20dp"
+            android:autoSizeTextType="uniform"
             android:textColor="@color/primaryblue"
             android:textSize="@dimen/best_time_row_size"
             android:text="TextView" />

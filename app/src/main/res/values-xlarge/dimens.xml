@@ -11,4 +11,5 @@
     <dimen name="pause_menu_time_size">60sp</dimen>
     <dimen name="button_width_size">300dp</dimen>
     <dimen name="best_time_row_size">30sp</dimen>
+    <dimen name="statistics_del_button_size">40</dimen>
 </resources>

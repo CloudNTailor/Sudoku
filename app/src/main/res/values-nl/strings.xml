@@ -37,5 +37,6 @@
     <string name="mistake_text">Vergissing</string>
     <string name="share_text">Hé, ik heb zojuist weer een puzzel op SudokuMaster voltooid!</string>
     <string name="share_using">deel via</string>
+    <string name="continue_button_text">Doorgaan met</string>
 
 </resources>

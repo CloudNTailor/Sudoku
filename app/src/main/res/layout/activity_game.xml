@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/btn_pause"
             android:paddingLeft="5dp"
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/timetexttoppadd"
             android:paddingRight="5dp">
         <Chronometer
             android:id="@+id/simpleChronometer"
@@ -36,7 +36,7 @@
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="@dimen/timetextsize"
             android:textStyle="bold|italic"/>
 
         </RelativeLayout>
@@ -69,7 +69,7 @@
             android:textColor="@color/numbers_dark"
             android:gravity="center"
             android:text="Difficulty: Easy"
-            android:textSize="15dp"/>
+            android:textSize="@dimen/hintbuttontextsize"/>
 
         <TextView
             android:id="@+id/mistaketext"
@@ -79,7 +79,7 @@
             android:textColor="@color/numbers_dark"
             android:gravity="center"
             android:text="Mistake: 0/3"
-            android:textSize="15dp"/>
+            android:textSize="@dimen/hintbuttontextsize"/>
     </RelativeLayout>
 
     <com.CloudNTailor.sudoku.GameEngine.SudokuLayout
@@ -108,8 +108,8 @@
         <Button
 
             android:id="@+id/btn_undo"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/hintbuttonwidth"
+            android:layout_height="@dimen/hintbuttonheight"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
@@ -124,13 +124,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/hintbuttontextsize"/>
 
         <Button
 
             android:id="@+id/btn_hint"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/hintbuttonwidth"
+            android:layout_height="@dimen/hintbuttonheight"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:drawableLeft="@drawable/ampul"
@@ -145,7 +146,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/hintbuttontextsize"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -302,7 +304,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/admob_banner_pid">
     </com.google.android.gms.ads.AdView>
 
@@ -340,7 +342,7 @@
             android:layout_centerInParent="true"
             android:text="@string/congratulations"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="40dp"
+            android:textSize="@dimen/welldonetextsize"
             android:textColor="@color/cultured"
             android:gravity="center"
             android:textStyle="bold"/>
@@ -352,7 +354,7 @@
             android:layout_centerInParent="true"
             android:text="@string/new_best_time"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="30dp"
+            android:textSize="@dimen/bestscoretextsize"
             android:textColor="@color/cultured"
             android:visibility="invisible"
             android:gravity="center"
@@ -365,7 +367,7 @@
             android:layout_below="@+id/newBestText"
             android:text="@string/pref_time_result"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="24dp"
+            android:textSize="@dimen/durationtextsize"
             android:textColor="@color/cultured"
             android:gravity="center"
             android:textStyle="bold" />
@@ -377,13 +379,13 @@
             android:layout_below="@+id/scoreText"
             android:text="     00:00     "
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="24dp"
+            android:textSize="@dimen/durationtextsize"
             android:textColor="@color/cultured"
             android:gravity="center"
             android:textStyle="bold" />
         <Button
             android:id="@+id/textEndButtonRestart"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/button_width_size"
             android:layout_height="wrap_content"
             android:layout_below="@id/scorePoint"
             android:paddingTop="10dp"
@@ -400,6 +402,7 @@
             android:background="@drawable/custom_button"
             android:text="@string/new_game_button_text"
             android:textColor="@color/cultured"
+            android:textSize="@dimen/letter_size"
             />
 
         <LinearLayout
@@ -488,9 +491,8 @@
                 android:layout_height="70dp"
                 android:textSize="@dimen/pause_menu_time_size"
                 android:textColor="@color/cultured"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_marginBottom="30dp"
                 android:text="00:00"
                 android:textStyle="bold"/>
@@ -511,7 +513,8 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/custom_button"
                 android:textColor="@color/cultured"
-                android:text="@string/resume_game_button_text"/>
+                android:text="@string/resume_game_button_text"
+                android:textSize="@dimen/letter_size"/>
 
             <Button
                 android:id="@+id/textButtonRestart"
@@ -530,6 +533,7 @@
                 android:background="@drawable/custom_button"
                 android:textColor="@color/cultured"
                 android:text="@string/new_game_button_text"
+                android:textSize="@dimen/letter_size"
                 />
             <Button
                 android:id="@+id/textButtonExit"
@@ -548,6 +552,7 @@
                 android:background="@drawable/custom_button"
                 android:textColor="@color/cultured"
                 android:text="@string/exit_game_button_text"
+                android:textSize="@dimen/letter_size"
                 />
         </LinearLayout>
     </RelativeLayout>

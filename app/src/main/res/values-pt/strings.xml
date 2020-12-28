@@ -38,4 +38,5 @@
     <string name="mistake_text">Erro</string>
     <string name="share_text">Ei, acabei de terminar outro quebra-cabeça no SudokuMaster!</string>
     <string name="share_using">compartilhar via</string>
+    <string name="continue_button_text">Continuar</string>
 </resources>

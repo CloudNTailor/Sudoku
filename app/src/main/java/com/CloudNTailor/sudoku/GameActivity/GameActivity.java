@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.CloudNTailor.sudoku.GameEngine.Converter;
 import com.CloudNTailor.sudoku.GameEngine.GameAction;
@@ -43,6 +44,8 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +61,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
     private int[][] board;
     private int[][] finishedBoard;
+    private int[][] hintsBoard;
+    private int[][] begginingofBoard;
+
     private int rows = 9;
     private int cols = 9;
     private SudokuLayout grid;
@@ -104,6 +110,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
     private List<GameAction> allMove;
 
+
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
     private int levelValue;
@@ -111,8 +118,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private int hintCount;
     private int mistakeCount;
     private int hintNumsBeg;
+    private int savedGameTime;
     private boolean gameFin;
-
+    private boolean savedGameExists;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,23 +133,10 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_game);
 
-        levelValue=Integer.parseInt(Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null));
-        String[] stringArray = getResources().getStringArray(R.array.level_codes);
-        String[] stringArrayLevelNames = getResources().getStringArray(R.array.level_names);
-        mistakeCount=0;
-        for(int i = 0 ; i<stringArray.length;i++)
-        {
-            if(levelValue==Integer.parseInt(stringArray[i]))
-            {
-                hintNumsBeg=3-i;
-                levetName=stringArrayLevelNames[i];
-            }
-        }
+        Bundle b= getIntent().getExtras();
 
-        hintCount=hintNumsBeg;
-
-
-        allMove= new ArrayList<>();
+        if(b!=null)
+            savedGameExists = b.getBoolean("SavedGame");
 
         buttonOne=(CircleButton)findViewById(R.id.btn_one);
         buttonTwo=(CircleButton)findViewById(R.id.btn_two);
@@ -186,10 +181,8 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
         isAdsLoad=false;
         gameFin=true;
-        String diffText = getResources().getString(R.string.pref_title_difficulty)+": "+levetName;
-        difTextView.setText(diffText);
 
-        misTextView.setText(prepairMistakeText());
+
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.admob_interstitial_pid));
@@ -218,12 +211,15 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
 
 
-        rewardedAd = createAndLoadRewardedAd();
 
         cols = grid.getNumColumns();
         rows = grid.getNumRows();
         board = new int[rows][cols];
         finishedBoard= new int[rows][cols];
+        hintsBoard= newEmptyArray();
+        begginingofBoard= new int[rows][cols];
+        begginingofBoard=newEmptyArray();
+
        //lock = new boolean[rows][cols];
 
         if (savedInstanceState != null && savedInstanceState.get("words") == null)
@@ -233,23 +229,58 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         if (savedInstanceState == null) {
            // isPaused = false;
             showDialog();
+            allMove= new ArrayList<>();
+            if(!savedGameExists) {
+                deleteSavedGames();
+                levelValue = Integer.parseInt(Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null));
+                String[] stringArray = getResources().getStringArray(R.array.level_codes);
+                String[] stringArrayLevelNames = getResources().getStringArray(R.array.level_names);
+                mistakeCount = 0;
+                for (int i = 0; i < stringArray.length; i++) {
+                    if (levelValue == Integer.parseInt(stringArray[i])) {
+                        hintNumsBeg = 3 - i;
+                        levetName = stringArrayLevelNames[i];
+                    }
+                }
+                hintCount = hintNumsBeg;
+            }
+            else
+            {
+                loadSavedGameValues();
+            }
+
+            String diffText = getResources().getString(R.string.pref_title_difficulty)+": "+levetName;
+            difTextView.setText(diffText);
+
+            misTextView.setText(prepairMistakeText());
+
+            if(hintCount==0)
+                rewardedAd = createAndLoadRewardedAd();
+            else
+                hintButton.setEnabled(true);
+
             Runnable r = new Runnable() {
 
                 @Override
                 public void run() {
 
-
-
-
-
                     runOnUiThread(new Runnable() {
 
                         @Override
                         public void run() {
-                            clearBoard();
-                            selectNumbers();
+                            if(!savedGameExists) {
+                                clearBoard();
+                                selectNumbers();
+                                simpleChronometer.setBase(SystemClock.elapsedRealtime());
+                                simpleChronometer.stop();
+                                simpleChronometer.start();
+                                prepareBoard();
+                            }
+                            else {
+                                loadSavedGame();
+                            }
                             grid.setOnCellHighlightedListener(GameActivity.this);
-                            prepareBoard();
+
                             if (dialog != null)
                                 dialog.dismiss();
                            // if (word_list_label_group != null)
@@ -259,9 +290,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                             AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
                             anim.setDuration(500);
                             grid.startAnimation(anim);
-                            simpleChronometer.setBase(SystemClock.elapsedRealtime());
-                            simpleChronometer.stop();
-                            simpleChronometer.start();
+
                         }
                     });
                 }
@@ -341,7 +370,15 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             public void onClick(View v) {
                pauseMenu.setVisibility(View.INVISIBLE);
                 grid.setEnabled(true);
+                View selectedView=grid.getcurrentSelectedView();
 
+                if(selectedView!=null) {
+                    selectedRowF=grid.getSelectedRow();
+                    selectedColumnF = grid.getSelectedColumn();
+                    ((TextView) selectedView.findViewById(R.id.number)).setBackgroundResource( grid.getCellBackGroundResource(selectedRowF,selectedColumnF));
+                    grid.drawSelectionBackGroundResource(selectedRowF,selectedColumnF,2);
+                    grid.deleteSelectedView();
+                }
                     startNewGame();
             }
         });
@@ -349,6 +386,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
             @Override
             public void onClick(View v) {
+                saveCurrentGame();
                 finish();
             }
         });
@@ -368,7 +406,15 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             public void onClick(View v) {
                 endGameMenu.setVisibility(View.INVISIBLE);
                 grid.setEnabled(true);
+                View selectedView=grid.getcurrentSelectedView();
 
+                if(selectedView!=null) {
+                    selectedRowF=grid.getSelectedRow();
+                    selectedColumnF = grid.getSelectedColumn();
+                    ((TextView) selectedView.findViewById(R.id.number)).setBackgroundResource( grid.getCellBackGroundResource(selectedRowF,selectedColumnF));
+                    grid.drawSelectionBackGroundResource(selectedRowF,selectedColumnF,2);
+                    grid.deleteSelectedView();
+                }
                      startNewGame();
 
             }
@@ -465,52 +511,58 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             @Override
             public void onClick(View v) {
                 if (findHowManyCellLeft() > 1) {
-                    isAdsLoad = true;
-                    if (rewardedAd.isLoaded()) {
-                        hintButton.setEnabled(false);
-                        Activity activityContext = GameActivity.this;
-                        RewardedAdCallback adCallback = new RewardedAdCallback() {
-                            @Override
-                            public void onRewardedAdOpened() {
-                                // Ad opened.
-                                timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
-                                simpleChronometer.stop();
-
-                            }
-
-                            @Override
-                            public void onRewardedAdClosed() {
-                                // Ad closed.
-                                isAdsLoad = false;
-                                simpleChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
-                                simpleChronometer.start();
-                                rewardedAd = createAndLoadRewardedAd();
-
-                            }
-
-                            @Override
-                            public void onUserEarnedReward(@NonNull RewardItem reward) {
-                                // User earned reward.
-                                hintOperation();
-                            }
-
-                            @Override
-                            public void onRewardedAdFailedToShow(AdError adError) {
-                                // Ad failed to display.
-                                isAdsLoad = false;
-                            }
-                        };
-                        rewardedAd.show(activityContext, adCallback);
-                    } else {
-                        isAdsLoad = false;
-
-                        if (hintCount > 0) {
-                            hintCount--;
-                            hintButton.setEnabled(true);
-                            hintOperation();
-                        } else
+                    if (hintCount > 0) {
+                        hintCount--;
+                        hintButton.setEnabled(true);
+                        hintOperation();
+                        if(hintCount==0) {
                             hintButton.setEnabled(false);
-                        Log.d("TAG", "The rewarded ad wasn't loaded yet.");
+                            rewardedAd = createAndLoadRewardedAd();
+                        }
+                    } else {
+                        isAdsLoad = true;
+                        if (rewardedAd.isLoaded()) {
+                            hintButton.setEnabled(false);
+                            Activity activityContext = GameActivity.this;
+                            RewardedAdCallback adCallback = new RewardedAdCallback() {
+                                @Override
+                                public void onRewardedAdOpened() {
+                                    // Ad opened.
+                                    timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
+                                    simpleChronometer.stop();
+
+                                }
+
+                                @Override
+                                public void onRewardedAdClosed() {
+                                    // Ad closed.
+                                    isAdsLoad = false;
+                                    simpleChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+                                    simpleChronometer.start();
+                                    rewardedAd = createAndLoadRewardedAd();
+
+                                }
+
+                                @Override
+                                public void onUserEarnedReward(@NonNull RewardItem reward) {
+                                    // User earned reward.
+                                    hintOperation();
+                                }
+
+                                @Override
+                                public void onRewardedAdFailedToShow(AdError adError) {
+                                    // Ad failed to display.
+                                    isAdsLoad = false;
+                                }
+                            };
+                            rewardedAd.show(activityContext, adCallback);
+                        } else {
+                            isAdsLoad = false;
+
+
+                            hintButton.setEnabled(false);
+                            Log.d("TAG", "The rewarded ad wasn't loaded yet.");
+                        }
                     }
                 }
             }
@@ -551,14 +603,13 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private void prepareBoard() {
         prepareDifficultyLevel();
         grid.populateBoard(board);
-        int[][] copyBoard = new int[9][9];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                copyBoard[i][j]= board[i][j];
+                begginingofBoard[i][j]= board[i][j];
             }
         }
 
-        grid.setFirstVersionBoard(copyBoard);
+        grid.setFirstVersionBoard(begginingofBoard);
     }
 
     private void prepareDifficultyLevel()
@@ -651,7 +702,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
              selectedColumnF = grid.getSelectedColumn();
             if(value>0) {
                 ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(value));
-                ((TextView) selectedView.findViewById(R.id.number)).setTextColor(getResources().getColor(R.color.numbers_blue));
+                ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_blue));
             }
             else
             {
@@ -664,6 +715,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             allMove.add(act);
             board[selectedRowF][selectedColumnF]=value;
             ((TextView) selectedView.findViewById(R.id.number)).setBackgroundResource( grid.getCellBackGroundResource(selectedRowF,selectedColumnF));
+            grid.drawSelectionBackGroundResource(selectedRowF,selectedColumnF,2);
             grid.deleteSelectedView();
             if(value>0)
                 gameFinished();
@@ -702,7 +754,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         if(checkBoardFinish())
         {
             gameFin=true;
-            scrBackImgView.setImageResource(R.drawable.scorepagebackground);
+            scrBackImgView.setImageResource(R.drawable.sudokumasterscorebackgroud);
             scoreTimeText.setVisibility(View.VISIBLE);
             scoreTextView.setVisibility(View.VISIBLE);
             String curTime =simpleChronometer.getText().toString();
@@ -730,6 +782,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 scrBackImgView.setImageResource(R.drawable.gameoverbackgroudpage);
                 scoreTextView.setVisibility(View.INVISIBLE);
                 scoreTimeText.setVisibility(View.INVISIBLE);
+                newBestScore.setVisibility(View.INVISIBLE);
                 congraTextView.setText(getResources().getString(R.string.gameover));
                 if (mInterstitialAd.isLoaded()) {
                     isAdsLoad=true;
@@ -868,6 +921,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         clearBoard();
         selectNumbers();
         prepareBoard();
+        deleteSavedGames();
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(1000);
         anim.setAnimationListener(new Animation.AnimationListener() {
@@ -891,7 +945,12 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         isAdsLoad=false;
         mistakeCount=0;
         allMove= new ArrayList<>();
+
         hintCount=hintNumsBeg;
+        if(hintCount==0)
+            rewardedAd = createAndLoadRewardedAd();
+        else
+            hintButton.setEnabled(true);
         misTextView.setText(prepairMistakeText());
         simpleChronometer.startAnimation(anim);
         grid.setEnabled(true);
@@ -937,6 +996,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 int currentPlayedGame = bestScoreOperation.getSharedPreference(this, currentDifLev + "gamefinishedWH", 0);
                 currentPlayedGame++;
                 bestScoreOperation.setSharedPreferenceInt(this, currentDifLev + "gamefinishedWH", currentPlayedGame);
+                currentPlayedGame = bestScoreOperation.getSharedPreference(this, currentDifLev + "gamefinished", 0);
+                currentPlayedGame++;
+                bestScoreOperation.setSharedPreferenceInt(this, currentDifLev + "gamefinished", currentPlayedGame);
             }
         }
 
@@ -978,7 +1040,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
                     // do something when the button is clicked
                     public void onClick(DialogInterface arg0, int arg1) {
-
+                        saveCurrentGame();
                         finish();
                         //close();
 
@@ -993,6 +1055,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     public void onPause() {
         super.onPause();
         if(!isAdsLoad) {
+
             String curTime = simpleChronometer.getText().toString();
             pauseChronoText.setText(curTime);
             timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
@@ -1007,6 +1070,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     @Override
     public void onStop() {
         super.onStop();
+        saveCurrentGame();
         if(dialog != null && dialog.isShowing())
             dialog.dismiss();
     }
@@ -1016,6 +1080,15 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         super.onResume();
         if(dialog != null && dialog.isShowing())
             dialog.dismiss();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+       getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     }
 
     private void hintOperation()
@@ -1040,12 +1113,14 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         int row = hintCell / cols;
         int col = hintCell % cols;
 
+
         View selectedView = grid.findChildByPosition(hintCell);
 
         board[row][col]=finishedBoard[row][col];
+        hintsBoard[row][col]=finishedBoard[row][col];
 
         ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(finishedBoard[row][col]));
-        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(getResources().getColor(R.color.numbers_green));
+        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_green));
         hintUsed=true;
         gameFinished();
     }
@@ -1105,6 +1180,180 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
 
         return leftCell;
+    }
+
+
+    private void saveCurrentGame()
+    {
+        LocalDm bestScoreOperation = new LocalDm();
+        bestScoreOperation.setSharedPreferenceBoolean(this,getString(R.string.key_saved_game_exists),true);
+        bestScoreOperation.setSharedPreferenceInt(this,getString(R.string.key_saved_game_time),Converter.GetSecondsFromDurationString( simpleChronometer.getText().toString()));
+        bestScoreOperation.setSharedPreferenceString(this,getString(R.string.key_saved_game_diff),levetName);
+        bestScoreOperation.setSharedPreferenceInt(this,getString(R.string.key_saved_game_diff_code),levelValue);
+        bestScoreOperation.setSharedPreferenceInt(this,getString(R.string.key_saved_mistake_nums),mistakeCount);
+        bestScoreOperation.setSharedPreferenceInt(this,getString(R.string.key_saved_nums_of_hint),hintCount);
+        bestScoreOperation.setSharedPreferenceInt(this,getString(R.string.key_saved_nums_of_hint_beg),hintNumsBeg);
+
+        Gson gson = new Gson();
+        String jSon = gson.toJson(allMove);
+        bestScoreOperation.setSharedPreferenceString(this,getString(R.string.key_saved_game_all_move),jSon);
+
+
+        List<GameAction>  saveAllGameMoves = new ArrayList<>();
+        List<GameAction>  saveFinishedPuzzle = new ArrayList<>();
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                GameAction act = new GameAction();
+                act.setI(i);
+                act.setJ(j);
+                act.setCurVal(board[i][j]);
+                act.setType("I");
+                if (board[i][j] > 0) {
+                    if (begginingofBoard[i][j] > 0)
+                        act.setType("B");
+                    if (hintsBoard[i][j] > 0)
+                        act.setType("H");
+                }
+
+                saveAllGameMoves.add(act);
+            }
+
+        }
+        jSon = gson.toJson(saveAllGameMoves);
+        bestScoreOperation.setSharedPreferenceString(this,getString(R.string.key_saved_game_current_board),jSon);
+
+        for (int i = 0; i < finishedBoard.length; i++) {
+            for (int j = 0; j < finishedBoard[i].length; j++) {
+
+                GameAction act = new GameAction();
+                act.setI(i);
+                act.setJ(j);
+                act.setCurVal(finishedBoard[i][j]);
+                act.setType("F");
+                saveFinishedPuzzle.add(act);
+            }
+        }
+
+        jSon = gson.toJson(saveFinishedPuzzle);
+        bestScoreOperation.setSharedPreferenceString(this,getString(R.string.key_saved_game_finished_board),jSon);
+
+    }
+
+    private void loadSavedGame(){
+
+
+        grid.populateBoard(begginingofBoard);
+        grid.setFirstVersionBoard(begginingofBoard);
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+
+                if(board[i][j]>0)
+                {
+                    if(begginingofBoard[i][j]>0)
+                        continue;
+
+
+                    View selectedView = grid.findChildByPosition((i*9)+j);
+
+                    ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(board[i][j]));
+                    ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_blue));
+                    if(hintsBoard[i][j]>0)
+                    {
+                        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_green));
+                    }
+                }
+            }
+        }
+
+        simpleChronometer.setBase(SystemClock.elapsedRealtime() - (savedGameTime * 1000));
+        simpleChronometer.start();
+
+    }
+
+    private void loadSavedGameValues(){
+        LocalDm savedGameOperations= new LocalDm();
+
+        levetName=savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_game_diff),"");
+        levelValue=savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_game_diff_code),-1);
+        mistakeCount=savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_mistake_nums),-1);
+        hintCount=savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_nums_of_hint),-1);
+        hintNumsBeg =savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_nums_of_hint_beg),-1);
+        savedGameTime=savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_game_time),-1);
+
+        Gson gson = new Gson();
+        String jsonToAr =  savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_game_all_move),null);
+
+        if(jsonToAr!=null)
+        {
+            allMove=gson.fromJson(jsonToAr,new TypeToken<List<GameAction>>() {}.getType());
+        }
+
+        List<GameAction>  saveAllGameMoves = new ArrayList<>();
+        List<GameAction>  saveFinishedPuzzle = new ArrayList<>();
+
+        jsonToAr =  savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_game_current_board),null);
+
+        if(jsonToAr!=null)
+        {
+            saveAllGameMoves=gson.fromJson(jsonToAr,new TypeToken<List<GameAction>>() {}.getType());
+
+            for(int i =0;i<saveAllGameMoves.size();i++)
+            {
+                GameAction act = saveAllGameMoves.get(i);
+                board[act.getI()][act.getJ()]=act.getCurVal();
+
+                if(act.getType().equals("H"))
+                    hintsBoard[act.getI()][act.getJ()]=act.getCurVal();
+                if(act.getType().equals("B"))
+                    begginingofBoard[act.getI()][act.getJ()]=act.getCurVal();
+            }
+
+        }
+        jsonToAr =  savedGameOperations.getSharedPreference(this,getString(R.string.key_saved_game_finished_board),null);
+
+        if(jsonToAr!=null)
+        {
+            saveFinishedPuzzle=gson.fromJson(jsonToAr,new TypeToken<List<GameAction>>() {}.getType());
+
+            for(int i =0;i<saveFinishedPuzzle.size();i++)
+            {
+                GameAction act = saveFinishedPuzzle.get(i);
+                if(act.getType().equals("F"))
+                    finishedBoard[act.getI()][act.getJ()]=act.getCurVal();
+            }
+        }
+
+    }
+
+
+    private void deleteSavedGames()
+    {
+        LocalDm bestScoreOperation = new LocalDm();
+        bestScoreOperation.setSharedPreferenceBoolean(this,getString(R.string.key_saved_game_exists),false);
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_game_time));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_game_diff));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_game_diff_code));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_mistake_nums));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_mistake_nums));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_nums_of_hint));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_game_all_move));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_game_current_board));
+        bestScoreOperation.removeSharedPreference(this,getString(R.string.key_saved_game_finished_board));
+    }
+    private int[][] newEmptyArray()
+    {
+        int[][] array = { { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0,0 }};
+        return array;
     }
 
 

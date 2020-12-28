@@ -15,8 +15,10 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.CloudNTailor.sudoku.Models.SquareRegion;
 import com.CloudNTailor.sudoku.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -120,8 +122,10 @@ public class SudokuLayout extends LinearLayout {
             public boolean onTouch(View v, MotionEvent e) {
                 switch (e.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (currentSelectedView != null)
-                            ((TextView) currentSelectedView.findViewById(R.id.number)).setBackgroundResource(getCellBackGroundResource(selectedRow,selectedColumn));
+                        if (currentSelectedView != null) {
+                            ((TextView) currentSelectedView.findViewById(R.id.number)).setBackgroundResource(getCellBackGroundResource(selectedRow, selectedColumn));
+                            drawSelectionBackGroundResource(selectedRow,selectedColumn,2);
+                        }
                         isNewSelection(e.getX(), e.getY());
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -273,7 +277,7 @@ public class SudokuLayout extends LinearLayout {
                 }
             }
 
-
+            drawSelectionBackGroundResource(selectedRow,selectedColumn,1);
 
             //currentSelectedView.setBackgroundColor(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor( getContext(), R.color.iceberg))));
         }
@@ -296,53 +300,53 @@ public class SudokuLayout extends LinearLayout {
     public int getCellBackGroundResource( int i,int j)
     {
         int returnVal=-1;
-        if(selectedRow==0||selectedRow==3||selectedRow==6)
+        if(i==0||i==3||i==6)
         {
-            if(selectedColumn==0||selectedColumn==3||selectedColumn==6)
+            if(j==0||j==3||j==6)
             {
                 //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
                 returnVal=R.drawable.textborder_st;
             }
-            else if(selectedColumn==1||selectedColumn==4||selectedColumn==7)
+            else if(j==1||j==4||j==7)
             {
                 returnVal=R.drawable.textborder_t;
             }
-            else if(selectedColumn==2||selectedColumn==5||selectedColumn==8)
+            else if(j==2||j==5||j==8)
             {
                 //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
                 returnVal=R.drawable.textborder_te;
             }
         }
-        if(selectedRow==1||selectedRow==4||selectedRow==7)
+        if(i==1||i==4||i==7)
         {
-            if(selectedColumn==0||selectedColumn==3||selectedColumn==6)
+            if(j==0||j==3||j==6)
             {
                 //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
                 returnVal=R.drawable.textborder_s;
 
             }
-            else if(selectedColumn==1||selectedColumn==4||selectedColumn==7)
+            else if(j==1||j==4||j==7)
             {
                returnVal=R.drawable.layout_border;
             }
-            else if(selectedColumn==2||selectedColumn==5||selectedColumn==8)
+            else if(j==2||j==5||j==8)
             {
                 //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
                 returnVal=R.drawable.textborder_e;
             }
         }
-        else if(selectedRow==2||selectedRow==5||selectedRow==8)
+        else if(i==2||i==5||i==8)
         {
-            if(selectedColumn==0||selectedColumn==3||selectedColumn==6)
+            if(j==0||j==3||j==6)
             {
                 //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
                 returnVal=R.drawable.textborder_sb;
             }
-            else if(selectedColumn==1||selectedColumn==4||selectedColumn==7)
+            else if(j==1||j==4||j==7)
             {
                 returnVal=R.drawable.textborder_b;
             }
-            else if(selectedColumn==2||selectedColumn==5||selectedColumn==8)
+            else if(j==2||j==5||j==8)
             {
                 //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
                 returnVal=R.drawable.textborder_be;
@@ -352,4 +356,159 @@ public class SudokuLayout extends LinearLayout {
         return  returnVal;
     }
 
+    public int getSelectionBackGroundResource(int i,int j)
+    {
+        int returnVal=-1;
+        if(i==0||i==3||i==6)
+        {
+            if(j==0||j==3||j==6)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
+                returnVal=R.drawable.textborder_st_g;
+            }
+            else if(j==1||j==4||j==7)
+            {
+                returnVal=R.drawable.textborder_t_g;
+            }
+            else if(j==2||j==5||j==8)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
+                returnVal=R.drawable.textborder_te_g;
+            }
+        }
+        if(i==1||i==4||i==7)
+        {
+            if(j==0||j==3||j==6)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
+                returnVal=R.drawable.textborder_s_g;
+
+            }
+            else if(j==1||j==4||j==7)
+            {
+                returnVal=R.drawable.layout_border_g;
+            }
+            else if(j==2||j==5||j==8)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
+                returnVal=R.drawable.textborder_e_g;
+            }
+        }
+        else if(i==2||i==5||i==8)
+        {
+            if(j==0||j==3||j==6)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
+                returnVal=R.drawable.textborder_sb_g;
+            }
+            else if(j==1||j==4||j==7)
+            {
+                returnVal=R.drawable.textborder_b_g;
+            }
+            else if(j==2||j==5||j==8)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
+                returnVal=R.drawable.textborder_be_g;
+            }
+        }
+
+        return  returnVal;
+    }
+
+    public void drawSelectionBackGroundResource(int i,int j,int mode)
+    {
+        View v ;
+        int resource;
+        for(int c=0;c<9;c++)
+        {
+            if(c!=i)
+            {
+                v= findChildByPosition((c*9)+j);
+                if(mode==1)
+                    resource=  getSelectionBackGroundResource(c,j);
+                else
+                    resource=  getCellBackGroundResource(c,j);
+                ((TextView) v.findViewById(R.id.number)).setBackgroundResource(resource);
+            }
+        }
+        for(int c=0;c<9;c++)
+        {
+            if(c!=j)
+            {
+                v= findChildByPosition((i*9)+c);
+                if(mode==1)
+                    resource=  getSelectionBackGroundResource(i,c);
+                else
+                    resource=  getCellBackGroundResource(i,c);
+                ((TextView) v.findViewById(R.id.number)).setBackgroundResource(resource);
+            }
+        }
+        int squareId=-1;
+
+        if(j<3)
+        {
+            squareId=0;
+        }
+        else if(j>5)
+        {
+            squareId=2;
+        }
+        else
+        {
+            squareId=1;
+        }
+        if(i<3)
+        {
+            squareId =squareId+0;
+        }
+        else if(i>5)
+        {
+            squareId =squareId+6;
+        }
+        else
+        {
+            squareId =squareId+3;
+        }
+
+        List<SquareRegion> matrixValues =getSmallSquareForSelection( squareId);
+
+        for(int a=0;a<matrixValues.size();a++)
+        {
+
+            int tempX=matrixValues.get(a).getX();
+            int tempY=matrixValues.get(a).getY();
+
+            if(tempX!=i || tempY!=j)
+            {
+                v= findChildByPosition((tempX*9)+tempY);
+                if(mode==1)
+                    resource=  getSelectionBackGroundResource(tempX,tempY);
+                else
+                    resource=  getCellBackGroundResource(tempX,tempY);
+                ((TextView) v.findViewById(R.id.number)).setBackgroundResource(resource);
+            }
+        }
+    }
+
+
+    public List<SquareRegion> getSmallSquareForSelection(int squareId)
+    {
+        List<SquareRegion> rec = new ArrayList<>();
+
+        int iStart=squareId/3;
+        int jStart=squareId%3;
+        jStart=jStart*3;
+        iStart= iStart*3;
+        for (int i = iStart; i < iStart+3; i++) {
+            for (int j = jStart; j < jStart+3; j++) {
+                SquareRegion reg = new SquareRegion();
+                reg.setX(i);
+                reg.setY(j);
+                rec.add(reg);
+            }
+        }
+
+
+        return  rec;
+    }
 }

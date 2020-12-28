@@ -7,23 +7,86 @@
     android:background="@color/cultured"
     tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/upbanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_volume"
+            android:layout_width="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="2dp"
+            android:layout_margin="1dp"
+            android:src="@mipmap/ic_volume_on_green"
+            app:cb_color="?theme_color" />
+
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="@dimen/image_padding_with"
+        android:layout_marginRight="@dimen/image_padding_with"
         android:adjustViewBounds="true"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/sudokumastermavi" />
     <LinearLayout
+        android:id="@+id/buttonslayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/banner"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
+        <Spinner
+            android:id="@+id/spinnerdifficulty"
+            android:layout_width="@dimen/button_width_size"
+            android:layout_height="@dimen/button_height_size"
+            android:paddingTop="@dimen/button_padding_size"
+            android:paddingBottom="@dimen/button_padding_size"
+            android:paddingLeft="@dimen/button_padding_size"
+            android:paddingRight="@dimen/button_padding_size"
+            android:layout_marginStart="@dimen/button_margin_size"
+            android:layout_marginLeft="@dimen/button_margin_size"
+            android:layout_marginBottom="@dimen/button_margin_size"
+            android:layout_marginEnd="@dimen/button_margin_size"
+            android:layout_marginRight="@dimen/button_margin_size"
+            android:layout_marginTop="@dimen/button_margin_size"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/cultured"
+            android:background="@drawable/bg_spinner"
+            android:textSize="@dimen/letter_size"
+            android:prompt="@string/pref_title_difficulty"
+            android:spinnerMode="dropdown"/>
+
+        <Button
+            android:id="@+id/textContinue"
+            android:layout_width="@dimen/button_width_size"
+            android:layout_height="@dimen/button_height_size"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:paddingLeft="@dimen/button_padding_size"
+            android:paddingRight="@dimen/button_padding_size"
+            android:layout_marginStart="@dimen/button_margin_size"
+            android:layout_marginLeft="@dimen/button_margin_size"
+            android:layout_marginBottom="@dimen/button_margin_size"
+            android:layout_marginEnd="@dimen/button_margin_size"
+            android:layout_marginRight="@dimen/button_margin_size"
+            android:layout_marginTop="@dimen/button_margin_size"
+            android:background="@drawable/custom_button"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/cultured"
+            android:text="@string/continue_button_text"
+            android:visibility="invisible"
+            android:textSize="@dimen/letter_size"
+            />
 
     <Button
         android:id="@+id/textButtonStart"
@@ -43,6 +106,7 @@
         android:background="@drawable/custom_button"
         android:textColor="@color/cultured"
         android:text="@string/new_game_button_text"
+        android:textSize="@dimen/letter_size"
         />
         <Button
             android:id="@+id/textStatic"
@@ -62,26 +126,9 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/cultured"
             android:text="@string/statistics_button_text"
+            android:textSize="@dimen/letter_size"
             />
-        <Button
-            android:id="@+id/textSetting"
-            android:layout_width="@dimen/button_width_size"
-            android:layout_height="@dimen/button_height_size"
-            android:paddingTop="@dimen/button_padding_size"
-            android:paddingBottom="@dimen/button_padding_size"
-            android:paddingLeft="@dimen/button_padding_size"
-            android:paddingRight="@dimen/button_padding_size"
-            android:layout_marginStart="@dimen/button_margin_size"
-            android:layout_marginLeft="@dimen/button_margin_size"
-            android:layout_marginBottom="@dimen/button_margin_size"
-            android:layout_marginEnd="@dimen/button_margin_size"
-            android:layout_marginRight="@dimen/button_margin_size"
-            android:layout_marginTop="@dimen/button_margin_size"
-            android:background="@drawable/custom_button"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/cultured"
-            android:text="@string/preferences_button_text"
-            />
+
     </LinearLayout>
 
 </RelativeLayout>
