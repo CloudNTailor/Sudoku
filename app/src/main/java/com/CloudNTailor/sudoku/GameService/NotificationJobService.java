@@ -34,8 +34,8 @@ public class NotificationJobService extends JobService {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_1_ID)
-                .setContentTitle("Hey There Sudoku")
-                .setContentText("SudokuMaster")
+                .setContentTitle(getString(R.string.notification_header))
+                .setContentText(getString(R.string.notification_text))
                 .setContentIntent(contentPendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

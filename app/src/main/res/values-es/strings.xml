@@ -39,4 +39,13 @@
     <string name="share_text">¡Oye, acabo de terminar otro acertijo en SudokuMaster!</string>
     <string name="share_using">compartir via</string>
     <string name="continue_button_text">Seguir</string>
+
+    <string name="rate_dialog_title">Califica SudokuMaster</string>
+    <string name="rate_dialog_message">Si te gusta jugar a SudokuMaster. ¿Le importaría tomarse un momento para calificarnos y apoyarnos?</string>
+    <string name="rate_dialog_ok">Califícalo ahora</string>
+    <string name="rate_dialog_cancel">Recuérdame más tarde</string>
+    <string name="rate_dialog_no">No, gracias</string>
+
+    <string name="notification_header">Recordatorio amistoso</string>
+    <string name="notification_text">¡Ven y resuelve un rompecabezas para tu ejercicio intelectual diario!</string>
 </resources>

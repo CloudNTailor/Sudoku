@@ -39,4 +39,13 @@
     <string name="share_using">deel via</string>
     <string name="continue_button_text">Doorgaan met</string>
 
+    <string name="rate_dialog_title">Beoordeel SudokuMaster</string>
+    <string name="rate_dialog_message">Als je het leuk vindt om SudokuMaster te spelen. Wilt u even de tijd nemen om ons te beoordelen en te steunen?</string>
+    <string name="rate_dialog_ok">Beoordeel het nu</string>
+    <string name="rate_dialog_cancel">Herinner me er later aan</string>
+    <string name="rate_dialog_no">Nee, dank u wel</string>
+
+    <string name="notification_header">Vriendelijke herinnering</string>
+    <string name="notification_text">Kom en los een puzzel op voor je dagelijkse intellectuele oefening!</string>
+
 </resources>

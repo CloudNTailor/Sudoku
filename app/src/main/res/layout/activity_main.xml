@@ -45,27 +45,6 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spinnerdifficulty"
-            android:layout_width="@dimen/button_width_size"
-            android:layout_height="@dimen/button_height_size"
-            android:paddingTop="@dimen/button_padding_size"
-            android:paddingBottom="@dimen/button_padding_size"
-            android:paddingLeft="@dimen/button_padding_size"
-            android:paddingRight="@dimen/button_padding_size"
-            android:layout_marginStart="@dimen/button_margin_size"
-            android:layout_marginLeft="@dimen/button_margin_size"
-            android:layout_marginBottom="@dimen/button_margin_size"
-            android:layout_marginEnd="@dimen/button_margin_size"
-            android:layout_marginRight="@dimen/button_margin_size"
-            android:layout_marginTop="@dimen/button_margin_size"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/cultured"
-            android:background="@drawable/bg_spinner"
-            android:textSize="@dimen/letter_size"
-            android:prompt="@string/pref_title_difficulty"
-            android:spinnerMode="dropdown"/>
-
         <Button
             android:id="@+id/textContinue"
             android:layout_width="@dimen/button_width_size"
@@ -87,6 +66,29 @@
             android:visibility="invisible"
             android:textSize="@dimen/letter_size"
             />
+
+        <Spinner
+            android:id="@+id/spinnerdifficulty"
+            android:layout_width="@dimen/button_width_size"
+            android:layout_height="@dimen/button_height_size"
+            android:paddingTop="@dimen/button_padding_size"
+            android:paddingBottom="@dimen/button_padding_size"
+            android:paddingLeft="@dimen/button_padding_size"
+            android:paddingRight="@dimen/button_padding_size"
+            android:layout_marginStart="@dimen/button_margin_size"
+            android:layout_marginLeft="@dimen/button_margin_size"
+            android:layout_marginBottom="@dimen/button_margin_size"
+            android:layout_marginEnd="@dimen/button_margin_size"
+            android:layout_marginRight="@dimen/button_margin_size"
+            android:layout_marginTop="@dimen/button_margin_size"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/cultured"
+            android:background="@drawable/bg_spinner"
+            android:textSize="@dimen/letter_size"
+            android:prompt="@string/pref_title_difficulty"
+            android:spinnerMode="dropdown"/>
+
+
 
     <Button
         android:id="@+id/textButtonStart"

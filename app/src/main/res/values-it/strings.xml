@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">SudokuMaster</string>
+    <string name="pref_summary_language">Select language for word list</string>
+    <string name="pref_title_language">Language</string>
+    <string name="pref_summary_difficulty">Select difficulty level for game</string>
+    <string name="pref_title_difficulty">Difficoltà</string>
+    <string name="pref_level_names_easy">Facile</string>
+    <string name="pref_level_names_medium">Medio</string>
+    <string name="pref_level_names_hard">Difficile</string>
+    <string name="pref_level_names_expert">Esperto</string>
+    <string name="settings">impostazioni</string>
+    <string name="new_best_time">Nuovo miglior tempo</string>
+    <string name="pref_time_result">Durata:</string>
+    <string name="resume_game_button_text">Riprendi il gioco</string>
+    <string name="new_game_button_text">Nuovo gioco</string>
+    <string name="exit_game_button_text">Esci dal gioco</string>
+    <string name="congratulations">Molto bene!</string>
+    <string name="gameover">Gioco finito!</string>
+    <string name="main_menu">Menu principale</string>
+    <string name="share">Condividere</string>
+    <string name="preferences_button_text">Preferenze</string>
+    <string name="statistics_button_text">Statistiche</string>
+    <string name="btn_undo">Disfare</string>
+    <string name="btn_hint">Suggerimento</string>
+    <string name="info_total_play">Gioco totale</string>
+    <string name="info_total_win">Vittoria totale</string>
+    <string name="info_total_win_wh">Vittorie totali senza suggerimento</string>
+    <string name="info_average_time">Tempo medio</string>
+    <string name="info_statistics">Statistiche</string>
+    <string name="dialog_yes">Sì</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_erase_data_text">Vuoi ripristinare le statistiche?</string>
+    <string name="best_time">Tempi migliori</string>
+    <string name="pref_summary_sound_onoff">Suono attivato o disattivato</string>
+    <string name="pref_title_sound_onoff">Suono</string>
+    <string name="back_button_text">Vuoi uscire dal gioco in corso?</string>
+    <string name="mistake_text">Sbaglio</string>
+    <string name="share_text">Ehi, ho appena finito un altro puzzle su SudokuMaster!</string>
+    <string name="share_using">condividere tramite</string>
+    <string name="continue_button_text">Continua il gioco</string>
+
+    <string name="rate_dialog_title">Valuta SudokuMaster</string>
+    <string name="rate_dialog_message">Se ti piace giocare a SudokuMaster. Ti dispiacerebbe dedicare un momento a votare e supportarci?</string>
+    <string name="rate_dialog_ok">Valutalo ora</string>
+    <string name="rate_dialog_cancel">Ricordamelo più tardi</string>
+    <string name="rate_dialog_no">No grazie</string>
+
+    <string name="notification_header">Promemoria amichevole</string>
+    <string name="notification_text">Vieni a risolvere un puzzle per il tuo esercizio intellettuale quotidiano!</string>
+
+
+
+</resources>

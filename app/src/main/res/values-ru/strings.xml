@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">SudokuMaster</string>
+
+
+    <string name="pref_summary_language">Выберите язык для списка слов</string>
+
+    <string name="pref_title_language">Язык</string>
+
+    <string name="pref_summary_difficulty">Выберите уровень сложности для игры</string>
+
+    <string name="pref_title_difficulty">трудность</string>
+
+    <string name="pref_level_names_easy">легко</string>
+
+    <string name="pref_level_names_medium">нормально</string>
+
+    <string name="pref_level_names_hard">трудно</string>
+
+    <string name="pref_level_names_expert">очень трудно</string>
+
+    <string name="settings">Настройки</string>
+
+    <string name="new_best_time">Новое лучшее время</string>
+
+    <string name="pref_time_result">продолжительность:</string>
+
+    <string name="resume_game_button_text">продолжить игру</string>
+
+    <string name="new_game_button_text">новая игра</string>
+
+    <string name="exit_game_button_text">выйти из игры</string>
+
+    <string name="congratulations">отлично сработано!</string>
+
+    <string name="main_menu">главное меню</string>
+
+    <string name="share">Поделиться</string>
+
+    <string name="preferences_button_text">Предпочтения</string>
+
+    <string name="statistics_button_text">Статистика</string>
+
+    <string name="btn_undo">отменить</string>
+
+    <string name="btn_hint">намек</string>
+
+    <string name="info_total_play">общая сыгранная игра</string>
+
+    <string name="info_total_win">общая выигранная игра</string>
+
+    <string name="info_total_win_wh">Общее количество выигранных игр без намек</string>
+
+    <string name="info_average_time">среднее время</string>
+
+    <string name="info_statistics">Статистика</string>
+
+    <string name="dialog_yes">да</string>
+
+    <string name="dialog_no">нет</string>
+
+    <string name="dialog_erase_data_text">Вы хотите сбросить статистику?</string>
+
+    <string name="best_time">Лучшее время</string>
+
+    <string name="pref_summary_sound_onoff">включить звук или же выключить звук</string>
+
+    <string name="pref_title_sound_onoff">Звук</string>
+
+    <string name="back_button_text">Вы хотите выйти из текущей игры?</string>
+
+    <string name="gameover">игра завершена!</string>
+    <string name="mistake_text">ошибка</string>
+    <string name="share_text">Привет, я только что закончил очередную головоломку судокумастер!</string>
+    <string name="share_using">поделиться с</string>
+    <string name="continue_button_text">продолжить игру</string>
+    <string name="rate_dialog_title">Ставка судокумастер</string>
+    <string name="rate_dialog_message">Если вам нравится играть в SudokuMaster, не могли бы вы найти время, чтобы оценить и поддержать нас?</string>
+    <string name="rate_dialog_ok">оцените это сейчас</string>
+    <string name="rate_dialog_cancel">Напомни мне позже</string>
+    <string name="rate_dialog_no">нет, благодаря</string>
+    <string name="notification_header">дружеское напоминание</string>
+    <string name="notification_text">Приходите и решайте головоломки для ежедневной тренировки ума!</string>
+
+</resources>

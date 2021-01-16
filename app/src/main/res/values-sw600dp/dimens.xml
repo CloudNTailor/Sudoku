@@ -9,7 +9,7 @@
     <dimen name="circle_button_in_active_screen_padding">5dp</dimen>
     <dimen name="letter_size">16sp</dimen>
     <dimen name="word_list_title_size">25sp</dimen>
-    <dimen name="word_size">65sp</dimen>
+    <dimen name="word_size">40sp</dimen>
     <dimen name="best_time_table_size">25sp</dimen>
     <dimen name="pause_menu_time_size">65sp</dimen>
     <dimen name="button_width_size">400dp</dimen>
@@ -19,7 +19,7 @@
     <dimen name="button_margin_size">12dp</dimen>
     <dimen name="best_time_row_size">18sp</dimen>
     <dimen name="statistics_del_button_size">50</dimen>
-    <dimen name="image_padding_with">200dp</dimen>
+    <dimen name="image_padding_with">100dp</dimen>
     <dimen name="hintbuttonwidth">80dp</dimen>
     <dimen name="hintbuttonheight">60dp</dimen>
     <dimen name="hintbuttontextsize">30sp</dimen>

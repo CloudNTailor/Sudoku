@@ -39,4 +39,13 @@
     <string name="share_using">Teilen per</string>
     <string name="continue_button_text">Fortsetzen</string>
 
+    <string name="rate_dialog_title">Bewerten Sie SudokuMaster</string>
+    <string name="rate_dialog_message">Wenn Sie gerne SudokuMaster spielen. Würde es Ihnen etwas ausmachen, sich einen Moment Zeit zu nehmen, um uns zu bewerten und zu unterstützen?</string>
+    <string name="rate_dialog_ok">Bewerte es jetzt</string>
+    <string name="rate_dialog_cancel">Erinnere mich später</string>
+    <string name="rate_dialog_no">Nein Danke</string>
+
+    <string name="notification_header">Freundliche Erinnerung</string>
+    <string name="notification_text">Löse ein Rätsel für deine tägliche intellektuelle Übung!</string>
+
 </resources>

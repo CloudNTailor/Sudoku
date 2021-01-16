@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +43,8 @@ import java.util.List;
 import java.util.Locale;
 
 import at.markushi.ui.CircleButton;
+import hotchemi.android.rate.AppRate;
+
 import static com.CloudNTailor.sudoku.GameService.NotificationJobScheduler.NotificationPeriodCounter;
 
 public class MainActivity extends Activity implements OnItemSelectedListener {
@@ -57,7 +60,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     private Boolean soundOnOff;
     InterstitialAd interstitialAds;
     private static final int JOB_ID = 0;
-    private JobScheduler mScheduler;
 
 
     @Override
@@ -70,6 +72,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         soundOnOff = Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_sound_onoff),true);
         MobileAds.setAppMuted(!soundOnOff);
 
+        rateApp();
         NotificationPeriodCounter=1;
 
         difficultySpinner= (Spinner) findViewById(R.id.spinnerdifficulty);
@@ -118,6 +121,17 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             difLevel="41";
             Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), difLevel);
         }
+
+         boolean jobScheduled = NotificationJobScheduler.isJobServiceOn(this);
+         Log.e("NOTE",Boolean.toString(jobScheduled));
+         NotificationJobScheduler.scheduleJob(this);
+
+
+        int dp = (int) (getResources().getDimension(R.dimen.word_size) / getResources().getDisplayMetrics().density);
+
+        Log.e("LSIZE",Integer.toString(dp));
+
+
 
          int indexOfSpinner=-1;
 
@@ -265,16 +279,24 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        ((TextView) parent.getChildAt(0)).setTextColor(getColor(R.color.cultured));
-        ((TextView) parent.getChildAt(0)).setGravity(Gravity.CENTER);
-        String item = parent.getItemAtPosition(position).toString();
+        if(parent.getCount()>0) {
+            View tView = ( parent.getChildAt(0));
 
-        for(int i =0;i<stringArrayLevelNames.length;i++)
-        {
-            if(stringArrayLevelNames[i]==item)
-            {
-                Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), stringArray[i]);
+            if(tView!=null) {
+                ((TextView) tView).setTextColor(getColor(R.color.cultured));
+                ((TextView) tView).setGravity(Gravity.CENTER);
             }
+            String item = parent.getItemAtPosition(position).toString();
+
+            for (int i = 0; i < stringArrayLevelNames.length; i++) {
+                if (stringArrayLevelNames[i] == item) {
+                    Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), stringArray[i]);
+                }
+            }
+        }
+        else
+        {
+            Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), stringArray[0]);
         }
 
     }
@@ -321,18 +343,21 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     }
 
 
-    private void cancelJobs() {
-        if (mScheduler != null){
-            mScheduler.cancelAll();
-            mScheduler = null;
-            Toast.makeText(this, "Job Canceled", Toast.LENGTH_SHORT).show();
-        }
+    private void rateApp()
+    {
+
+        AppRate.with(this)
+                .setInstallDays(1)
+                .setLaunchTimes(3)
+                .setRemindInterval(2)
+                .monitor();
+        AppRate.showRateDialogIfMeetsConditions(this)
+        ;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NotificationJobScheduler.scheduleJob(this);
     }
 
 

@@ -39,4 +39,13 @@
     <string name="share_text">Ei, acabei de terminar outro quebra-cabeça no SudokuMaster!</string>
     <string name="share_using">compartilhar via</string>
     <string name="continue_button_text">Continuar</string>
+
+    <string name="rate_dialog_title">Avalie o SudokuMaster</string>
+    <string name="rate_dialog_message">Se você gosta de jogar SudokuMaster. Você se importaria de reservar um momento para avaliar e nos apoiar?</string>
+    <string name="rate_dialog_ok">Avalie-o agora</string>
+    <string name="rate_dialog_cancel">Lembre-me mais tarde</string>
+    <string name="rate_dialog_no">Não, obrigado</string>
+
+    <string name="notification_header">Lembrete amigável</string>
+    <string name="notification_text">Venha resolver um quebra-cabeça para o seu exercício intelectual diário!</string>
 </resources>

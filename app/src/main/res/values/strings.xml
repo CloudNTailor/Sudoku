@@ -25,9 +25,9 @@
     <string name="statistics_button_text">Statistics</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_hint">Hint</string>
-    <string name="info_total_play">Total Play</string>
-    <string name="info_total_win">Total Win</string>
-    <string name="info_total_win_wh">Total Wins Without Hint</string>
+    <string name="info_total_play">Total Games</string>
+    <string name="info_total_win">Games Won</string>
+    <string name="info_total_win_wh">Games Won Without Hint</string>
     <string name="info_average_time">Average Time</string>
     <string name="info_statistics">Statistics</string>
     <string name="dialog_yes">Yes</string>
@@ -42,6 +42,16 @@
     <string name="share_using">Share using</string>
     <string name="continue_button_text">Continue Game</string>
 
+    <string name="rate_dialog_title">Rate SudokuMaster</string>
+    <string name="rate_dialog_message">If you enjoy playing SudokuMaster. Would you mind taking a moment to Rate and support us?</string>
+    <string name="rate_dialog_ok">Rate it now</string>
+    <string name="rate_dialog_cancel">Remind me later</string>
+    <string name="rate_dialog_no">no, thanks</string>
+
+    <string name="notification_header">Friendly Reminder</string>
+    <string name="notification_text">Come and solve a puzzle for your daily intellectual  exercise!</string>
+
+
     <string name="admob_pid" translatable="false">ca-app-pub-8993153172324808~6608757339</string>
     <string name="admob_banner_pid" translatable="false">ca-app-pub-8993153172324808/7055463986</string>
     <string name="admob_interstitial_pid" translatable="false">ca-app-pub-8993153172324808/1555725296</string>
@@ -50,6 +60,8 @@
     <!--   <string name="admob_reward_pid" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
     <string name="admob_reward_pid" translatable="false">ca-app-pub-8993153172324808/8288401016</string>
     <string name="privacy_policy_url" translatable="false">https://sudokumaster.flycricket.io/privacy.html</string>
+
+
 
     <string name="key_saved_game_exists" translatable="false">savedgameexists</string>
     <string name="key_saved_nums_of_hint" translatable="false">savedgamenumsofhint</string>

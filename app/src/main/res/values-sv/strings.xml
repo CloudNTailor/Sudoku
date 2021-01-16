@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SudokuMaster</string>
+    <string name="pref_summary_language">Select language for word list</string>
+    <string name="pref_title_language">Language</string>
+    <string name="pref_summary_difficulty">Select difficulty level for game</string>
+    <string name="pref_title_difficulty">Svårighet</string>
+    <string name="pref_level_names_easy">Lätt</string>
+    <string name="pref_level_names_medium">Medium </string>
+    <string name="pref_level_names_hard">Hård</string>
+    <string name="pref_level_names_expert">Expert</string>
+    <string name="settings">Inställningar</string>
+    <string name="new_best_time">Ny bästa tid</string>
+    <string name="pref_time_result">Varaktighet:</string>
+    <string name="resume_game_button_text">Återupptag spelet</string>
+    <string name="new_game_button_text">Nytt spel</string>
+    <string name="exit_game_button_text">Avsluta spelet</string>
+    <string name="congratulations">Bra gjort!</string>
+    <string name="gameover">Spel över!</string>
+    <string name="main_menu">Huvudmeny</string>
+    <string name="share">Dela med sig</string>
+    <string name="preferences_button_text">Inställningar</string>
+    <string name="statistics_button_text">Statistik</string>
+    <string name="btn_undo">Ångra</string>
+    <string name="btn_hint">Antydan</string>
+    <string name="info_total_play">Totalt spel</string>
+    <string name="info_total_win">Spel vunna</string>
+    <string name="info_total_win_wh">Totalt vinner utan tips</string>
+    <string name="info_average_time">Snittid</string>
+    <string name="info_statistics">Statistik</string>
+    <string name="dialog_yes">Ja</string>
+    <string name="dialog_no">Nej</string>
+    <string name="dialog_erase_data_text">Vill du återställa statistiken?</string>
+    <string name="best_time">Bästa tiderna</string>
+    <string name="pref_summary_sound_onoff">Ljud på eller av</string>
+    <string name="pref_title_sound_onoff">Ljud</string>
+    <string name="back_button_text">Vill du avsluta spelet?</string>
+    <string name="mistake_text">Misstag</string>
+    <string name="share_text">Hej, jag har precis avslutat ett annat pussel på SudokuMaster!</string>
+    <string name="share_using">Dela med</string>
+    <string name="continue_button_text">Fortsätt spelet</string>
+
+    <string name="rate_dialog_title">Betygsätt SudokuMaster</string>
+    <string name="rate_dialog_message">Om du gillar att spela SudokuMaster. Har du något emot att ta en stund att betygsätta och stödja oss?</string>
+    <string name="rate_dialog_ok">Betygsätt det nu</string>
+    <string name="rate_dialog_cancel">Påminn mig senare</string>
+    <string name="rate_dialog_no">Nej tack</string>
+
+    <string name="notification_header">Vänlig påminnelse</string>
+    <string name="notification_text">Kom och lös ett pussel för din dagliga intellektuella övning!</string>
+
+</resources>

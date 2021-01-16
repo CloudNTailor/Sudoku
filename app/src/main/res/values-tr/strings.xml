@@ -39,4 +39,13 @@
     <string name="share_using">ile paylaş</string>
     <string name="continue_button_text">Devam et</string>
 
+    <string name="rate_dialog_title">SudokuMaster\'ı değerlendirin</string>
+    <string name="rate_dialog_message">SudokuMaster oynamaktan hoşlanıyorsanız. Bizi Değerlendirmek ve desteklemek için bir dakikanızı ayırır mısınız?</string>
+    <string name="rate_dialog_ok">Şimdi oyla</string>
+    <string name="rate_dialog_cancel">Bana daha sonra hatırlat</string>
+    <string name="rate_dialog_no">Hayır teşekkürler</string>
+
+    <string name="notification_header">Arkadaşça bir uyarı</string>
+    <string name="notification_text">Gelin ve günlük entelektüel egzersiziniz için bir bulmacayı çözün!</string>
+
 </resources>
