@@ -1,10 +1,12 @@
 package com.CloudNTailor.sudoku.GameEngine;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 
 import com.CloudNTailor.sudoku.Models.SquareRegion;
@@ -176,13 +179,17 @@ public class SudokuLayout extends LinearLayout {
 
     public void populateBoard(int[][] board) {
         int curval;
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(R.attr.default_numbers_color, typedValue, true);
+        @ColorInt int defaultColor = typedValue.data;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 curval = board[i][j];
                 View v = findChildByPosition(i * cols + j);
                 if (curval != 0) {
                     ((TextView) v.findViewById(R.id.number)).setText("" + Integer.toString(curval));
-                    ((TextView) v.findViewById(R.id.number)).setTextColor(getResources().getColor(R.color.numbers_dark));
+                    ((TextView) v.findViewById(R.id.number)).setTextColor(defaultColor);
                 } else {
                     ((TextView) v.findViewById(R.id.number)).setText(" ");
                 }
@@ -356,6 +363,66 @@ public class SudokuLayout extends LinearLayout {
         return  returnVal;
     }
 
+
+    public int getCellMistakeBackGroundResource( int i,int j)
+    {
+        int returnVal=-1;
+        if(i==0||i==3||i==6)
+        {
+            if(j==0||j==3||j==6)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
+                returnVal=R.drawable.textborder_st_m;
+            }
+            else if(j==1||j==4||j==7)
+            {
+                returnVal=R.drawable.textborder_t_m;
+            }
+            else if(j==2||j==5||j==8)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
+                returnVal=R.drawable.textborder_te_m;
+            }
+        }
+        if(i==1||i==4||i==7)
+        {
+            if(j==0||j==3||j==6)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
+                returnVal=R.drawable.textborder_s_m;
+
+            }
+            else if(j==1||j==4||j==7)
+            {
+                returnVal=R.drawable.layout_border_m;
+            }
+            else if(j==2||j==5||j==8)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
+                returnVal=R.drawable.textborder_e_m;
+            }
+        }
+        else if(i==2||i==5||i==8)
+        {
+            if(j==0||j==3||j==6)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_sb, null);
+                returnVal=R.drawable.textborder_sb_m;
+            }
+            else if(j==1||j==4||j==7)
+            {
+                returnVal=R.drawable.textborder_b_m;
+            }
+            else if(j==2||j==5||j==8)
+            {
+                //view = LayoutInflater.from(getContext()).inflate(R.layout.sudokugrid_cell_be, null);
+                returnVal=R.drawable.textborder_be_m;
+            }
+        }
+
+        return  returnVal;
+    }
+
     public int getSelectionBackGroundResource(int i,int j)
     {
         int returnVal=-1;
@@ -426,6 +493,7 @@ public class SudokuLayout extends LinearLayout {
                 v= findChildByPosition((c*9)+j);
                 if(mode==1)
                     resource=  getSelectionBackGroundResource(c,j);
+
                 else
                     resource=  getCellBackGroundResource(c,j);
                 ((TextView) v.findViewById(R.id.number)).setBackgroundResource(resource);
@@ -438,6 +506,7 @@ public class SudokuLayout extends LinearLayout {
                 v= findChildByPosition((i*9)+c);
                 if(mode==1)
                     resource=  getSelectionBackGroundResource(i,c);
+
                 else
                     resource=  getCellBackGroundResource(i,c);
                 ((TextView) v.findViewById(R.id.number)).setBackgroundResource(resource);

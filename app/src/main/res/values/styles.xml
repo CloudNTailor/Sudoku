@@ -1,17 +1,56 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Light application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryblue</item>
         <item name="colorPrimaryDark">@color/primaryblue</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="theme_color">@color/cultured</item>
+        <item name="default_numbers_color">@color/numbers_dark</item>
+        <item name="game_board_line_color">@color/light_line_color</item>
+        <item name="default_text_color">@color/numbers_dark</item>
+        <item name="selection_box_color">@color/selection_grey</item>
+        <item name="selected_box_color">@color/iceberg</item>
+        <item name="mistake_box_color">@color/mistake_red_light</item>
+        <item name="numbers_blue_t">@color/numbers_blue_light</item>
+        <item name="numbers_green_t">@color/numbers_green_light</item>
+        <item name="icon_button_background">@color/cultured</item>
+        <item name="numbers_button_background">@color/circle_button_background_light</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
+    </style>
+
+
+    <!-- dark application theme. -->
+    <style name="DarkAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryblue</item>
+        <item name="colorPrimaryDark">@color/primaryblue</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="theme_color">@color/dark_theme_background</item>
+        <item name="default_numbers_color">@color/numbers_light</item>
+        <item name="game_board_line_color">@color/dark_line_color</item>
+        <item name="default_text_color">@color/numbers_light</item>
+        <item name="selection_box_color">@color/selection_black</item>
+        <item name="selected_box_color">@color/selected_box_dark_color</item>
+        <item name="mistake_box_color">@color/rasphery</item>
+        <item name="numbers_blue_t">@color/numbers_blue_dark</item>
+        <item name="numbers_green_t">@color/numbers_green_dark</item>
+        <item name="icon_button_background">@color/primaryblue</item>
+        <item name="numbers_button_background">@color/circle_button_background_dark</item>
+        <item name="android:spinnerDropDownItemStyle">@style/DarkmySpinnerItemStyle</item>
+        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
     </style>
 
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/primaryblue</item>
+        <item name="android:background">@color/cultured</item>
+    </style>
+
+    <style name="DarkmySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/primaryblue</item>
+        <item name="android:background">@color/dark_theme_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -20,5 +59,10 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="WindowsAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 </resources>

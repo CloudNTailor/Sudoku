@@ -48,6 +48,9 @@
     <string name="notification_header">Promemoria amichevole</string>
     <string name="notification_text">Vieni a risolvere un puzzle per il tuo esercizio intellettuale quotidiano!</string>
 
+    <string name="show_my_mistake">Mostra i miei errori</string>
+    <string name="your_puzzle">Il tuo puzzle</string>
+
 
 
 </resources>

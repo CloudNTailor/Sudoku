@@ -9,6 +9,20 @@
     </declare-styleable>
 
 
+    <declare-styleable name="ds">
+        <attr name="default_numbers_color" format="color"/>
+        <attr name="game_board_line_color" format="color"/>
+        <attr name="default_text_color" format="color"/>
+        <attr name="selection_box_color" format="color"/>
+        <attr name="selected_box_color" format="color"/>
+        <attr name="mistake_box_color" format="color"/>
+        <attr name="numbers_blue_t" format="color"/>
+        <attr name="numbers_green_t" format="color"/>
+        <attr name="icon_button_background" format="color"/>
+        <attr name="numbers_button_background" format="color"/>
+    </declare-styleable>
+
+
 <attr name="theme_color" format="reference"/>
 <attr name="board_letter" format="reference"/>
 <attr name="word_list" format="reference"/>

@@ -49,4 +49,7 @@
     <string name="notification_header">Дружнє нагадування</string>
     <string name="notification_text">Приходьте і розгадайте головоломку для ваших щоденних інтелектуальних вправ!</string>
 
+    <string name="show_my_mistake">Показати мої помилки</string>
+    <string name="your_puzzle">Ваша головоломка</string>
+
 </resources>

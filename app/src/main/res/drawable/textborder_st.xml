@@ -3,8 +3,8 @@
 <item>
     <shape
         android:shape="rectangle">
-        <stroke android:width="2dp" android:color="#FF000000" />
-        <solid android:color="@color/cultured" />
+        <stroke android:width="2dp" android:color="?attr/game_board_line_color" />
+        <solid android:color="?theme_color" />
 
     </shape>
 </item>
@@ -12,7 +12,7 @@
 <item android:top="2dp" android:start="2dp" android:bottom="1dp" android:end="1dp">
     <shape
         android:shape="rectangle">
-        <stroke android:width="2dp" android:color="@color/cultured" />
+        <stroke android:width="2dp" android:color="?theme_color" />
         <solid android:color="#00000000" />
     </shape>
 </item>

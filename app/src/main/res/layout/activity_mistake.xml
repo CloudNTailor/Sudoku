@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lay_wordsearch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?theme_color"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/title_of_finished_puzzle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/game_board_fin"
+        android:layout_centerHorizontal="true"
+        android:text="@string/your_puzzle"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="@dimen/welldonetextsize"
+        android:textColor="@color/cultured"
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+    <com.CloudNTailor.sudoku.GameEngine.SudokuLayout
+        android:id="@+id/game_board_fin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/iceberg"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true">
+    </com.CloudNTailor.sudoku.GameEngine.SudokuLayout>
+
+</RelativeLayout>

@@ -41,6 +41,8 @@
     <string name="share_text">Hey, I just finished another puzzle on SudokuMaster!</string>
     <string name="share_using">Share using</string>
     <string name="continue_button_text">Continue Game</string>
+    <string name="show_my_mistake">Show My Mistakes</string>
+    <string name="your_puzzle">Your Puzzle</string>
 
     <string name="rate_dialog_title">Rate SudokuMaster</string>
     <string name="rate_dialog_message">If you enjoy playing SudokuMaster. Would you mind taking a moment to Rate and support us?</string>
@@ -62,6 +64,7 @@
     <string name="privacy_policy_url" translatable="false">https://sudokumaster.flycricket.io/privacy.html</string>
 
 
+    <string name="pref_key_day_night" translatable="false">dayNnight</string>
 
     <string name="key_saved_game_exists" translatable="false">savedgameexists</string>
     <string name="key_saved_nums_of_hint" translatable="false">savedgamenumsofhint</string>

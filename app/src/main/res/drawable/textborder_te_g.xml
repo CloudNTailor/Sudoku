@@ -3,8 +3,8 @@
     <item>
         <shape
             android:shape="rectangle">
-            <stroke android:width="2dp" android:color="#FF000000" />
-            <solid android:color="@color/selection_grey" />
+            <stroke android:width="2dp" android:color="?attr/game_board_line_color" />
+            <solid android:color="?attr/selection_box_color" />
 
         </shape>
     </item>
@@ -12,8 +12,8 @@
     <item android:top="2dp" android:start="1dp" android:bottom="1dp" android:end="2dp">
         <shape
             android:shape="rectangle">
-            <stroke android:width="2dp" android:color="@color/selection_grey" />
-            <solid android:color="@color/selection_grey" />
+            <stroke android:width="2dp" android:color="?attr/selection_box_color" />
+            <solid android:color="?attr/selection_box_color" />
         </shape>
     </item>
 

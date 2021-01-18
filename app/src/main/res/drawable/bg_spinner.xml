@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_activated="true">
-        <color android:color="@color/cultured" />
+        <color android:color="?attr/theme_color" />
     </item>
     <item>
         <shape android:shape="rectangle">
@@ -28,4 +28,6 @@
             </item>
         </layer-list>
     </item>
+
+
 </layer-list>

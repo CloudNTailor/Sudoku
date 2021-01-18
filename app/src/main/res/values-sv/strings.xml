@@ -49,4 +49,7 @@
     <string name="notification_header">Vänlig påminnelse</string>
     <string name="notification_text">Kom och lös ett pussel för din dagliga intellektuella övning!</string>
 
+    <string name="show_my_mistake">Visa mina misstag</string>
+    <string name="your_puzzle">Ditt pussel</string>
+
 </resources>

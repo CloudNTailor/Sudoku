@@ -48,5 +48,8 @@
     <string name="notification_header">Venlig påmindelse</string>
     <string name="notification_text">Kom og løs et puslespil til din daglige intellektuelle øvelse!</string>
 
+    <string name="show_my_mistake">Vis mine fejl</string>
+    <string name="your_puzzle">Dit puslespil</string>
+
 
 </resources>

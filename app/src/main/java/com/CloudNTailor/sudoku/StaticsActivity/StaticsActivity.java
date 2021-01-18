@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.CloudNTailor.sudoku.Adaptors.BestTimeAdabtor;
 import com.CloudNTailor.sudoku.GameEngine.Converter;
 import com.CloudNTailor.sudoku.GameEngine.LocalDm;
@@ -33,6 +35,11 @@ public class StaticsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.DarkAppTheme);
+        else
+            setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getActionBar();

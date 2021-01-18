@@ -80,5 +80,7 @@
     <string name="rate_dialog_no">нет, благодаря</string>
     <string name="notification_header">дружеское напоминание</string>
     <string name="notification_text">Приходите и решайте головоломки для ежедневной тренировки ума!</string>
+    <string name="show_my_mistake">Показать мои ошибки</string>
+    <string name="your_puzzle">Ваша головоломка</string>
 
 </resources>

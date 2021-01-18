@@ -49,4 +49,7 @@
     <string name="notification_header">Petit rappel</string>
     <string name="notification_text">Venez résoudre un puzzle pour votre exercice intellectuel quotidien!</string>
 
+    <string name="show_my_mistake">Montrez mes erreurs</string>
+    <string name="your_puzzle">Votre puzzle</string>
+
 </resources>

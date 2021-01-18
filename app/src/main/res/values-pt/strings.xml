@@ -48,4 +48,7 @@
 
     <string name="notification_header">Lembrete amigável</string>
     <string name="notification_text">Venha resolver um quebra-cabeça para o seu exercício intelectual diário!</string>
+
+    <string name="show_my_mistake">Mostre meus erros</string>
+    <string name="your_puzzle">Seu quebra-cabeça</string>
 </resources>

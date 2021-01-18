@@ -19,9 +19,9 @@
     <solid android:width="2dp" android:color="@color/numbers_dark"/>
     <corners android:radius="20dp"/>
     <gradient
-        android:startColor="@color/cultured"
-        android:centerColor="@color/cultured"
-        android:endColor="@color/cultured"
+        android:startColor="?attr/icon_button_background"
+        android:centerColor="?attr/icon_button_background"
+        android:endColor="?attr/icon_button_background"
         ></gradient>
 </shape>
 </item>

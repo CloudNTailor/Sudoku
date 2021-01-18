@@ -5,9 +5,13 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="numbers_dark">#191919</color>
-    <color name="numbers_blue">#1167b1</color>
-    <color name="numbers_green">#006a4e</color>
+    <color name="numbers_blue_dark">#2a9df4</color>
+    <color name="numbers_blue_light">#1167b1</color>
+
+    <color name="numbers_green_light">#006a4e</color>
+    <color name="numbers_green_dark">#5ca08e</color>
     <color name="rasphery">#d21f3c</color>
+    <color name="mistake_red_light">#fe4645</color>
     <color name="cultured">#eff2f1</color>
     <color name="maximumyellowred">#f4b942</color>
     <color name="middleblugreen">#97d8c4</color>
@@ -15,7 +19,20 @@
     <color name="ceruleanblue">#4059ad</color>
     <color name="harbor_grey">#cdcdcd</color>
     <color name="selection_grey">#dedede</color>
+    <color name="selection_black">#616161</color>
     <color name="spacecadet">#28376B</color>
     <color name="primaryblue">#3D86F6</color>
     <color name="primartgrey">#E8E6E6</color>
+
+    <color name="selected_box_dark_color">#006bad</color>
+
+    <color name="light_line_color">#FF000000</color>
+
+    <color name="dark_line_color">#FF80868b</color>
+    
+    <color name="dark_theme_background">#191919</color>
+    <color name="numbers_light">#9aa0a6</color>
+
+    <color name="circle_button_background_light">#E8E6E6</color>
+     <color name="circle_button_background_dark">#616161</color>
 </resources>

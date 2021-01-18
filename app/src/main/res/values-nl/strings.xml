@@ -48,4 +48,7 @@
     <string name="notification_header">Vriendelijke herinnering</string>
     <string name="notification_text">Kom en los een puzzel op voor je dagelijkse intellectuele oefening!</string>
 
+    <string name="show_my_mistake">Laat mijn fouten zien</string>
+    <string name="your_puzzle">Jouw puzzel</string>
+
 </resources>

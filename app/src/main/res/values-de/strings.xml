@@ -48,4 +48,7 @@
     <string name="notification_header">Freundliche Erinnerung</string>
     <string name="notification_text">Löse ein Rätsel für deine tägliche intellektuelle Übung!</string>
 
+    <string name="show_my_mistake">Zeige meine Fehler</string>
+    <string name="your_puzzle">Dein Puzzle</string>
+
 </resources>

@@ -8,11 +8,13 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +40,9 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -57,13 +62,26 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     private String[] stringArray;
     private String[] stringArrayLevelNames;
     private CircleButton soundButton;
+    private CircleButton dayNightButton;
     private Boolean soundOnOff;
     InterstitialAd interstitialAds;
     private static final int JOB_ID = 0;
+    private boolean day;
+    private int indexOfSpinner;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        day=Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_day_night),true);
+        if(!day) {
+            setTheme(R.style.DarkAppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MobileAds.initialize(this, this.getResources().getString(R.string.admob_pid));
@@ -72,11 +90,13 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         soundOnOff = Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_sound_onoff),true);
         MobileAds.setAppMuted(!soundOnOff);
 
+
+
         rateApp();
         NotificationPeriodCounter=1;
 
         difficultySpinner= (Spinner) findViewById(R.id.spinnerdifficulty);
-        difficultySpinner.setOnItemSelectedListener(this);
+
         soundButton = (CircleButton) findViewById(R.id.btn_volume);
         ActionBar actionBar = getActionBar();
         if(actionBar != null)
@@ -84,6 +104,17 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         Configuration config = getResources().getConfiguration();
         Locale locale = config.locale;
+
+
+
+        //Day-night button operation
+        dayNightButton=(CircleButton) findViewById(R.id.btn_day_night);
+        if(day)
+            dayNightButton.setImageResource(R.mipmap.ic_day_green);
+        else
+            dayNightButton.setImageResource(R.mipmap.ic_night_green);
+
+
         if(langCode == null){
 
 
@@ -133,7 +164,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
 
 
-         int indexOfSpinner=-1;
+         indexOfSpinner=-1;
 
          stringArray = getResources().getStringArray(R.array.level_codes);
          stringArrayLevelNames = getResources().getStringArray(R.array.level_names);
@@ -147,15 +178,21 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
          if(!soundOnOff)
          {
-            soundButton.setImageResource(R.mipmap.ic_volume_off_green);
+             if(day)
+                 soundButton.setImageResource(R.mipmap.ic_volume_off_green);
+             else
+                 soundButton.setImageResource(R.mipmap.ic_volume_off_black);
          }
          else
          {
-             soundButton.setImageResource(R.mipmap.ic_volume_on_green);
+             if(day)
+                 soundButton.setImageResource(R.mipmap.ic_volume_on_green);
+             else
+                 soundButton.setImageResource(R.mipmap.ic_volume_on_black);
          }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, difLevelsList);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_custom_textbox, difLevelsList);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -164,6 +201,12 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         difficultySpinner.setAdapter(dataAdapter);
 
         difficultySpinner.setSelection(indexOfSpinner);
+
+        difficultySpinner.setOnItemSelectedListener(this);
+
+
+
+
 
         newButton=(Button)findViewById(R.id.textButtonStart);
         newButton.setOnClickListener(new View.OnClickListener() {
@@ -263,16 +306,46 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
                 if(!soundOnOff) {
 
                     soundOnOff=true;
-                    soundButton.setImageResource(R.mipmap.ic_volume_on_green);
+                    if(day)
+                        soundButton.setImageResource(R.mipmap.ic_volume_on_green);
+                    else
+                        soundButton.setImageResource(R.mipmap.ic_volume_on_black);
 
                 }
                 else
                 {
                     soundOnOff=false;
-                    soundButton.setImageResource(R.mipmap.ic_volume_off_green);
+                    if(day)
+                        soundButton.setImageResource(R.mipmap.ic_volume_off_green);
+                    else
+                        soundButton.setImageResource(R.mipmap.ic_volume_off_black);
                 }
                 Settings.saveBooleanValue(MainActivity.this, getResources().getString(R.string.pref_key_sound_onoff),soundOnOff);
                 MobileAds.setAppMuted(!soundOnOff);
+            }
+        });
+
+
+        dayNightButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if(day) {
+
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    day=false;
+                }
+                else
+                {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    day=true;
+                }
+                Settings.saveBooleanValue(MainActivity.this, getResources().getString(R.string.pref_key_day_night),day);
+                //MobileAds.setAppMuted(!soundOnOff);
+
+                recreate();
+
             }
         });
     }
@@ -280,17 +353,13 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(parent.getCount()>0) {
-            View tView = ( parent.getChildAt(0));
 
-            if(tView!=null) {
-                ((TextView) tView).setTextColor(getColor(R.color.cultured));
-                ((TextView) tView).setGravity(Gravity.CENTER);
-            }
             String item = parent.getItemAtPosition(position).toString();
 
             for (int i = 0; i < stringArrayLevelNames.length; i++) {
                 if (stringArrayLevelNames[i] == item) {
                     Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), stringArray[i]);
+                    break;
                 }
             }
         }
@@ -303,6 +372,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+
 
     }
 
@@ -359,6 +430,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     protected void onDestroy() {
         super.onDestroy();
     }
+
 
 
 

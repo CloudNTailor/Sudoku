@@ -7,10 +7,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +27,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.CloudNTailor.sudoku.GameEngine.Converter;
@@ -85,6 +92,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private Button shareButton;
     private Button homeButton;
     private Button endScreenNewGame;
+    private Button showMyMistakes;
     private TextView pauseChronoText;
     private TextView scoreTimeText;
     private long timeWhenStopped = 0;
@@ -107,6 +115,12 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private TextView scoreTextView;
     private TextView congraTextView;
     private ImageView scrBackImgView;
+    private @ColorInt int defaultBlueNumberColor;
+    private @ColorInt int defaultGreenNumberColor;
+
+    private boolean day;
+
+    private boolean gameFinished=false;
 
     private List<GameAction> allMove;
 
@@ -122,7 +136,17 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     private boolean gameFin;
     private boolean savedGameExists;
 
+    private boolean mistakePageOpened = false;
+
     protected void onCreate(Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkAppTheme);
+            day=false;
+        }
+        else {
+            setTheme(R.style.AppTheme);
+            day=true;
+        }
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
@@ -150,9 +174,12 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         buttonClear=(CircleButton)findViewById(R.id.btn_clear);
         simpleChronometer= (Chronometer) findViewById(R.id.simpleChronometer);
         endGameMenu=(RelativeLayout)findViewById(R.id.scorePage);
+
         shareButton=(Button)findViewById(R.id.btn_share);
         homeButton=(Button)findViewById(R.id.btn_return_main);
         endScreenNewGame=(Button)findViewById(R.id.textEndButtonRestart);
+        showMyMistakes=(Button)findViewById(R.id.textEndButtonShowMistake);
+
         scoreTimeText=(TextView)findViewById(R.id.scorePoint);
         pauseChronoText=(TextView)findViewById(R.id.pauseChronoText);
         pauseMenu = (RelativeLayout) findViewById(R.id.pauseMenu);
@@ -182,6 +209,13 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         isAdsLoad=false;
         gameFin=true;
 
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.getTheme();
+        theme.resolveAttribute(R.attr.numbers_blue_t, typedValue, true);
+        defaultBlueNumberColor = typedValue.data;
+
+        theme.resolveAttribute(R.attr.numbers_green_t, typedValue, true);
+        defaultGreenNumberColor = typedValue.data;
 
 
         mInterstitialAd = new InterstitialAd(this);
@@ -336,6 +370,14 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         }
 
         btn_pause_game = (CircleButton) findViewById(R.id.btn_pause);
+
+
+        if(day)
+            btn_pause_game.setImageResource(R.mipmap.ic_pause_green);
+        else
+            btn_pause_game.setImageResource(R.mipmap.ic_pause_black);
+
+
         btn_pause_game.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -417,6 +459,20 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 }
                      startNewGame();
 
+            }
+        });
+
+
+        showMyMistakes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mistakePageOpened=true;
+                Intent intent = new Intent(GameActivity.this, MistakeActivity.class);
+                Bundle b = prepareBoardOfMistake();
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
 
@@ -702,7 +758,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
              selectedColumnF = grid.getSelectedColumn();
             if(value>0) {
                 ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(value));
-                ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_blue));
+                ((TextView) selectedView.findViewById(R.id.number)).setTextColor(defaultBlueNumberColor);
             }
             else
             {
@@ -740,7 +796,18 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                         {
                             mistakeCount++;
                             misTextView.setText(prepairMistakeText());
-                            undoOperation(true);
+                            if(mistakeCount<3) {
+                             misTextView.setBackgroundColor(getColor(R.color.rasphery));
+
+                                final Handler handler = new Handler(Looper.getMainLooper());
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        misTextView.setBackgroundColor(Color.parseColor("#00000000"));
+                                        undoOperation(true);
+                                    }
+                                }, 300);
+                            }
                             return false;
                         }
             }
@@ -754,9 +821,11 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         if(checkBoardFinish())
         {
             gameFin=true;
+            gameFinished=true;
             scrBackImgView.setImageResource(R.drawable.sudokumasterscorebackgroud);
             scoreTimeText.setVisibility(View.VISIBLE);
             scoreTextView.setVisibility(View.VISIBLE);
+            showMyMistakes.setVisibility(View.INVISIBLE);
             String curTime =simpleChronometer.getText().toString();
             scoreTimeText.setText(curTime);
             addBestScore(curTime);
@@ -779,11 +848,13 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         {
             if(mistakeCount==3) {
                 gameFin=false;
+                gameFinished=true;
                 scrBackImgView.setImageResource(R.drawable.gameoverbackgroudpage);
                 scoreTextView.setVisibility(View.INVISIBLE);
                 scoreTimeText.setVisibility(View.INVISIBLE);
                 newBestScore.setVisibility(View.INVISIBLE);
                 congraTextView.setText(getResources().getString(R.string.gameover));
+                showMyMistakes.setVisibility(View.VISIBLE);
                 if (mInterstitialAd.isLoaded()) {
                     isAdsLoad=true;
                     mInterstitialAd.show();
@@ -918,6 +989,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     }
 
     private void startNewGame() {
+        gameFinished=false;
         clearBoard();
         selectNumbers();
         prepareBoard();
@@ -1040,7 +1112,8 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
                     // do something when the button is clicked
                     public void onClick(DialogInterface arg0, int arg1) {
-                        saveCurrentGame();
+                        if(!gameFinished)
+                            saveCurrentGame();
                         finish();
                         //close();
 
@@ -1054,6 +1127,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     @Override
     public void onPause() {
         super.onPause();
+        if(!mistakePageOpened)
         if(!isAdsLoad) {
 
             String curTime = simpleChronometer.getText().toString();
@@ -1070,6 +1144,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     @Override
     public void onStop() {
         super.onStop();
+        if(!gameFinished)
         saveCurrentGame();
         if(dialog != null && dialog.isShowing())
             dialog.dismiss();
@@ -1078,6 +1153,8 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     @Override
     public void onResume() {
         super.onResume();
+        if(mistakePageOpened)
+            mistakePageOpened=false;
         if(dialog != null && dialog.isShowing())
             dialog.dismiss();
     }
@@ -1120,7 +1197,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         hintsBoard[row][col]=finishedBoard[row][col];
 
         ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(finishedBoard[row][col]));
-        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_green));
+        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(defaultGreenNumberColor);
         hintUsed=true;
         gameFinished();
     }
@@ -1240,6 +1317,57 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
     }
 
+
+    private Bundle prepareBoardOfMistake()
+    {
+        Bundle b = new Bundle();
+        Gson gson = new Gson();
+        String jSon = gson.toJson(allMove);
+        b.putString("allGameMove",jSon);
+
+
+        List<GameAction>  saveAllGameMoves = new ArrayList<>();
+        List<GameAction>  saveFinishedPuzzle = new ArrayList<>();
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                GameAction act = new GameAction();
+                act.setI(i);
+                act.setJ(j);
+                act.setCurVal(board[i][j]);
+                act.setType("I");
+                if (board[i][j] > 0) {
+                    if (begginingofBoard[i][j] > 0)
+                        act.setType("B");
+                    if (hintsBoard[i][j] > 0)
+                        act.setType("H");
+                }
+
+                saveAllGameMoves.add(act);
+            }
+
+        }
+        jSon = gson.toJson(saveAllGameMoves);
+        b.putString("currentGameMove",jSon);
+
+        for (int i = 0; i < finishedBoard.length; i++) {
+            for (int j = 0; j < finishedBoard[i].length; j++) {
+
+                GameAction act = new GameAction();
+                act.setI(i);
+                act.setJ(j);
+                act.setCurVal(finishedBoard[i][j]);
+                act.setType("F");
+                saveFinishedPuzzle.add(act);
+            }
+        }
+
+        jSon = gson.toJson(saveFinishedPuzzle);
+        b.putString("finishedBoard",jSon);
+
+        return b;
+    }
+
     private void loadSavedGame(){
 
 
@@ -1258,10 +1386,10 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                     View selectedView = grid.findChildByPosition((i*9)+j);
 
                     ((TextView) selectedView.findViewById(R.id.number)).setText(Integer.toString(board[i][j]));
-                    ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_blue));
+                    ((TextView) selectedView.findViewById(R.id.number)).setTextColor(defaultBlueNumberColor);
                     if(hintsBoard[i][j]>0)
                     {
-                        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(ContextCompat.getColor(this,R.color.numbers_green));
+                        ((TextView) selectedView.findViewById(R.id.number)).setTextColor(defaultGreenNumberColor);
                     }
                 }
             }
