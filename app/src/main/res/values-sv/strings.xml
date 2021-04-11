@@ -51,5 +51,6 @@
 
     <string name="show_my_mistake">Visa mina misstag</string>
     <string name="your_puzzle">Ditt pussel</string>
+    <string name="clear_statistic">Radera statistik</string>
 
 </resources>

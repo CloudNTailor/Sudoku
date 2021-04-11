@@ -50,5 +50,6 @@
 
     <string name="show_my_mistake">Zeige meine Fehler</string>
     <string name="your_puzzle">Dein Puzzle</string>
+    <string name="clear_statistic">" Statistiken löschen"</string>
 
 </resources>

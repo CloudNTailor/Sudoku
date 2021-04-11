@@ -50,4 +50,5 @@
 
     <string name="notification_header">Recordatorio amistoso</string>
     <string name="notification_text">¡Ven y resuelve un rompecabezas para tu ejercicio intelectual diario!</string>
+    <string name="clear_statistic">" Eliminar estadísticas"</string>
 </resources>

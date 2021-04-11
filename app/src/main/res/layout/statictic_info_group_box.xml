@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@color/harbor_grey">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewTotalPlay"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewTotalPlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+        <TextView
+            android:id="@+id/textViewTotalPlayResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTotalPlay"
+        android:id="@+id/textViewTotalWin"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewTotalWinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/primaryblue"
+            android:autoSizeTextType="uniform"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+        <TextView
+            android:id="@+id/textViewTotalWinResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTotalWin"
+        android:id="@+id/textViewTotalWinWH"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewTotalWinWHText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/primaryblue"
+            android:autoSizeTextType="uniform"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+        <TextView
+            android:id="@+id/textViewTotalWinWHResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTotalWinWH"
+        android:id="@+id/textViewAvarageTime"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewAvarageTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:autoSizeTextType="uniform"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+        <TextView
+            android:id="@+id/textViewAvarageTimeResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewAvarageTime"
+        android:id="@+id/textViewBestTime"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewBestTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:autoSizeTextType="uniform"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+        <TextView
+            android:id="@+id/textViewBestTimeResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:textColor="@color/primaryblue"
+            android:textSize="@dimen/best_time_row_size"
+            android:text="TextView" />
+    </LinearLayout>
+</RelativeLayout>
+</RelativeLayout>
+</RelativeLayout>

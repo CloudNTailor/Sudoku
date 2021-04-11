@@ -31,6 +31,7 @@ import com.CloudNTailor.sudoku.Pref.MyGDPR;
 import com.CloudNTailor.sudoku.Pref.Settings;
 import com.CloudNTailor.sudoku.Pref.Constants;
 import com.CloudNTailor.sudoku.StaticsActivity.StaticsActivity;
+import com.CloudNTailor.sudoku.StaticsActivity.StaticsActivityTabV;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -291,7 +292,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, StaticsActivity.class);
+                Intent intent = new Intent(MainActivity.this, StaticsActivityTabV.class);
                 startActivity(intent);
 
 

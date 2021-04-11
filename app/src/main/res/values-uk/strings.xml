@@ -51,5 +51,6 @@
 
     <string name="show_my_mistake">Показати мої помилки</string>
     <string name="your_puzzle">Ваша головоломка</string>
+    <string name="clear_statistic">" Видалити статистику"</string>
 
 </resources>

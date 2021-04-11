@@ -82,5 +82,6 @@
     <string name="notification_text">Приходите и решайте головоломки для ежедневной тренировки ума!</string>
     <string name="show_my_mistake">Показать мои ошибки</string>
     <string name="your_puzzle">Ваша головоломка</string>
+    <string name="clear_statistic">Удалить статистику</string>
 
 </resources>

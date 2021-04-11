@@ -50,6 +50,7 @@
 
     <string name="show_my_mistake">Vis mine fejl</string>
     <string name="your_puzzle">Dit puslespil</string>
+    <string name="clear_statistic">" Slet statistik"</string>
 
 
 </resources>

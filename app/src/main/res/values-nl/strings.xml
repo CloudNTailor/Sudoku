@@ -50,5 +50,6 @@
 
     <string name="show_my_mistake">Laat mijn fouten zien</string>
     <string name="your_puzzle">Jouw puzzel</string>
+    <string name="clear_statistic">Statistieken verwijderen</string>
 
 </resources>

@@ -718,6 +718,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
 
         }
+        gameCounter(1);
     }
 
     private List<Integer> findPossibleCellForErase()
@@ -741,7 +742,6 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             }
         }
         hintUsed=false;
-        gameCounter(1);
     }
     private void pushedButton(int value)
     {

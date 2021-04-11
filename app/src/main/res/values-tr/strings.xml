@@ -49,5 +49,6 @@
 
     <string name="notification_header">Arkadaşça bir uyarı</string>
     <string name="notification_text">Gelin ve günlük entelektüel egzersiziniz için bir bulmacayı çözün!</string>
+    <string name="clear_statistic">"İstatistikleri Sil "</string>
 
 </resources>

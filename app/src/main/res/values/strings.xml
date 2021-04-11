@@ -44,6 +44,7 @@
     <string name="show_my_mistake">Show My Mistakes</string>
     <string name="your_puzzle">Your Puzzle</string>
 
+
     <string name="rate_dialog_title">Rate SudokuMaster</string>
     <string name="rate_dialog_message">If you enjoy playing SudokuMaster. Would you mind taking a moment to Rate and support us?</string>
     <string name="rate_dialog_ok">Rate it now</string>
@@ -76,5 +77,6 @@
     <string name="key_saved_game_finished_board" translatable="false">savedgamefinishedboard</string>
     <string name="key_saved_game_all_move" translatable="false">savedgameallmove</string>
     <string name="key_saved_mistake_nums" translatable="false">mustakenums</string>
+    <string name="clear_statistic">Delete Statistics</string>
 
 </resources>

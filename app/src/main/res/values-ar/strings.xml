@@ -48,5 +48,6 @@
 
     <string name="show_my_mistake">عرض أخطائي</string>
     <string name="your_puzzle">اللغز الخاص بك</string>
+    <string name="clear_statistic">احذف الإحصائيات</string>
 
 </resources>
