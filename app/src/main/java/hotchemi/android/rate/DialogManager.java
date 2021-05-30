@@ -14,6 +14,7 @@ import static hotchemi.android.rate.IntentHelper.createIntentForAmazonAppstore;
 import static hotchemi.android.rate.IntentHelper.createIntentForGooglePlay;
 import static hotchemi.android.rate.PreferenceHelper.setAgreeShowDialog;
 import static hotchemi.android.rate.PreferenceHelper.setRemindInterval;
+import static hotchemi.android.rate.PreferenceHelper.setRemindIntervalForNo;
 import static hotchemi.android.rate.Utils.getDialogBuilder;
 
 final class DialogManager {
@@ -48,9 +49,9 @@ final class DialogManager {
                     final Intent intentToAppstore = options.getStoreType() == StoreType.GOOGLEPLAY ?
                             createIntentForGooglePlay(context) : createIntentForAmazonAppstore(context);
                     context.startActivity(intentToAppstore);
-                    setAgreeShowDialog(context, false);
-                    if (listener != null) listener.onClickButton(which);
                 }
+                setAgreeShowDialog(context, false);
+                if (listener != null) listener.onClickButton(which);
             }
         });
 
@@ -68,7 +69,7 @@ final class DialogManager {
             builder.setNegativeButton(options.getNegativeText(context), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    setAgreeShowDialog(context, false);
+                    setRemindIntervalForNo(context);
                     if (listener != null) listener.onClickButton(which);
                 }
             });
