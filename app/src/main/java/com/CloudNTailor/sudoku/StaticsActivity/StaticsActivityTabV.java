@@ -32,6 +32,12 @@ public class StaticsActivityTabV extends AppCompatActivity {
             setTheme(R.style.AppTheme);
 
         setContentView(R.layout.activity_statistic_tab_v);
+        
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setElevation(0); // AppBarLayout ile bütünleşmesi için
+        }
+
         setViewer();
 
     }
@@ -44,11 +50,12 @@ public class StaticsActivityTabV extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
-            case R.id.action_search:
-                // do something
-                deleteButtonActivity();
-                break;
+        if (id == R.id.action_search) {
+            deleteButtonActivity();
+            return true;
+        } else if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

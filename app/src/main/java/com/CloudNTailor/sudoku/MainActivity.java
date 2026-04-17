@@ -35,13 +35,17 @@ import com.CloudNTailor.sudoku.StaticsActivity.StaticsActivityTabV;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.MobileAds;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
@@ -85,7 +89,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, this.getResources().getString(R.string.admob_pid));
+        MobileAds.initialize(this, initializationStatus -> {});
         String langCode = Settings.getStringValue(this, getResources().getString(R.string.pref_key_language), null);
         String difLevel = Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null);
         soundOnOff = Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_sound_onoff),true);
@@ -142,11 +146,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
         MyGDPR.updateConsentStatus(MainActivity.this);
 
-        interstitialAds = new InterstitialAd(MainActivity.this);
-        interstitialAds.setAdUnitId(this.getResources().getString(R.string.admob_interstitial_pid_contin));
-
-        interstitialAds.loadAd(new AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
+        requestNewInterstitial();
 
         if(difLevel==null)
         {
@@ -257,21 +257,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
 
 
-                if(interstitialAds.isLoaded())
+                if(interstitialAds != null)
                 {
-                    interstitialAds.show();
-                    interstitialAds.setAdListener(new AdListener()
+                    interstitialAds.setFullScreenContentCallback(new FullScreenContentCallback()
                     {
                         @Override
-                        public void onAdClosed() {
+                        public void onAdDismissedFullScreenContent() {
                             Intent intent = new Intent(MainActivity.this, GameActivity.class);
                             Bundle b = new Bundle();
                             b.putBoolean("SavedGame", true);
                             intent.putExtras(b);
                             startActivity(intent);
-                            super.onAdClosed();
                         }
                     });
+                    interstitialAds.show(MainActivity.this);
                 }
                 else {
 
@@ -410,8 +409,21 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         requestNewInterstitial();
     }
     private void requestNewInterstitial() {
-        interstitialAds.loadAd(new AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
+        AdRequest adRequest = new AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build();
+
+        InterstitialAd.load(this, this.getResources().getString(R.string.admob_interstitial_pid_contin), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        interstitialAds = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        interstitialAds = null;
+                    }
+                });
     }
 
 

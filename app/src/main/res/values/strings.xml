@@ -56,12 +56,21 @@
 
 
     <string name="admob_pid" translatable="false">ca-app-pub-8993153172324808~6608757339</string>
-    <string name="admob_banner_pid" translatable="false">ca-app-pub-8993153172324808/7055463986</string>
-    <string name="admob_interstitial_pid" translatable="false">ca-app-pub-8993153172324808/1555725296</string>
+    <!--  REAL ADS
+     <string name="admob_banner_pid" translatable="false">ca-app-pub-8993153172324808/7055463986</string>
+     <string name="admob_interstitial_pid" translatable="false">ca-app-pub-8993153172324808/1555725296</string>
+     <string name="admob_reward_pid" translatable="false">ca-app-pub-8993153172324808/8288401016</string>
+    -->
+
+    <!--  TEST ADS -->
+    <string name="admob_banner_pid" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_interstitial_pid" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_reward_pid" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+
     <string name="admob_interstitial_pid_contin" translatable="false">ca-app-pub-8993153172324808/7844044855</string>
     <string name="publisher_id" translatable="false">pub-8993153172324808</string>
     <!--   <string name="admob_reward_pid" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
-    <string name="admob_reward_pid" translatable="false">ca-app-pub-8993153172324808/8288401016</string>
+
     <string name="privacy_policy_url" translatable="false">https://sudokumaster.flycricket.io/privacy.html</string>
 
 

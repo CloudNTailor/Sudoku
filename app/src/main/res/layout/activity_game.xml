@@ -489,15 +489,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible">
+
+
         <ImageView
             android:id="@+id/pauseImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:src="@drawable/scorepagebackground"
-            android:scaleType="centerCrop"/>
-
-
+            android:scaleType="centerCrop"
+            android:src="@drawable/scorepagebackground" />
 
         <LinearLayout
             android:id="@+id/pauseButtons"
@@ -576,6 +575,7 @@
                 android:text="@string/exit_game_button_text"
                 android:textSize="@dimen/letter_size"
                 />
+
         </LinearLayout>
     </RelativeLayout>
 

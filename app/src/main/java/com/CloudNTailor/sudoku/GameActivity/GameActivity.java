@@ -46,10 +46,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -218,28 +220,22 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         defaultGreenNumberColor = typedValue.data;
 
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.admob_interstitial_pid));
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                isAdsLoad=false;
-                if(gameFin) {
-                    if (soundOnOff) {
-                        MediaPlayer mPlayer = MediaPlayer.create(GameActivity.this, R.raw.board_finished);
-                        mPlayer.start();
-                    }
-                }
-                endGameMenu.setVisibility(View.VISIBLE);
-            }
-
-        });
-
-
-
-
         requestNewInterstitial();
         mAdView = (AdView) findViewById(R.id.adView);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError adError) {
+                super.onAdFailedToLoad(adError);
+                Log.e("AdMob", "Banner Ad Failed to Load: " + adError.getMessage());
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d("AdMob", "Banner Ad Loaded Successfully");
+            }
+        });
 
         mAdView.loadAd(new AdRequest.Builder()
                 .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
@@ -289,7 +285,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             misTextView.setText(prepairMistakeText());
 
             if(hintCount==0)
-                rewardedAd = createAndLoadRewardedAd();
+                createAndLoadRewardedAd();
             else
                 hintButton.setEnabled(true);
 
@@ -573,49 +569,46 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                         hintOperation();
                         if(hintCount==0) {
                             hintButton.setEnabled(false);
-                            rewardedAd = createAndLoadRewardedAd();
+                            createAndLoadRewardedAd();
                         }
                     } else {
                         isAdsLoad = true;
-                        if (rewardedAd.isLoaded()) {
+                        if (rewardedAd != null) {
                             hintButton.setEnabled(false);
                             Activity activityContext = GameActivity.this;
-                            RewardedAdCallback adCallback = new RewardedAdCallback() {
+                            rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                                 @Override
-                                public void onRewardedAdOpened() {
-                                    // Ad opened.
+                                public void onAdShowedFullScreenContent() {
+                                    // Ad showed.
                                     timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
                                     simpleChronometer.stop();
-
                                 }
 
                                 @Override
-                                public void onRewardedAdClosed() {
-                                    // Ad closed.
+                                public void onAdDismissedFullScreenContent() {
+                                    // Ad dismissed.
                                     isAdsLoad = false;
                                     simpleChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
                                     simpleChronometer.start();
-                                    rewardedAd = createAndLoadRewardedAd();
-
+                                    createAndLoadRewardedAd();
                                 }
 
+                                @Override
+                                public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                    // Ad failed to display.
+                                    isAdsLoad = false;
+                                    createAndLoadRewardedAd();
+                                }
+                            });
+                            rewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
                                 @Override
                                 public void onUserEarnedReward(@NonNull RewardItem reward) {
                                     // User earned reward.
                                     hintOperation();
                                 }
-
-                                @Override
-                                public void onRewardedAdFailedToShow(AdError adError) {
-                                    // Ad failed to display.
-                                    isAdsLoad = false;
-                                }
-                            };
-                            rewardedAd.show(activityContext, adCallback);
+                            });
                         } else {
                             isAdsLoad = false;
-
-
                             hintButton.setEnabled(false);
                             Log.d("TAG", "The rewarded ad wasn't loaded yet.");
                         }
@@ -635,8 +628,41 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     }
 
     private void requestNewInterstitial() {
-        mInterstitialAd.loadAd(new AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build());
+        AdRequest adRequest = new AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build();
+
+        InterstitialAd.load(this, this.getResources().getString(R.string.admob_interstitial_pid), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        mInterstitialAd = interstitialAd;
+                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                isAdsLoad = false;
+                                if (gameFin) {
+                                    if (soundOnOff) {
+                                        MediaPlayer mPlayer = MediaPlayer.create(GameActivity.this, R.raw.board_finished);
+                                        mPlayer.start();
+                                    }
+                                }
+                                endGameMenu.setVisibility(View.VISIBLE);
+                                requestNewInterstitial();
+                            }
+
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                isAdsLoad = false;
+                                endGameMenu.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        mInterstitialAd = null;
+                    }
+                });
     }
 
     private void showDialog(){
@@ -831,9 +857,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
             addBestScore(curTime);
             gameCounter(2);
             congraTextView.setText(getResources().getString(R.string.congratulations));
-            if (mInterstitialAd.isLoaded()) {
+            if (mInterstitialAd != null) {
                 isAdsLoad=true;
-                mInterstitialAd.show();
+                mInterstitialAd.show(this);
             } else {
                 if (soundOnOff) {
                     MediaPlayer mPlayer = MediaPlayer.create(GameActivity.this, R.raw.board_finished);
@@ -855,9 +881,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
                 newBestScore.setVisibility(View.INVISIBLE);
                 congraTextView.setText(getResources().getString(R.string.gameover));
                 showMyMistakes.setVisibility(View.VISIBLE);
-                if (mInterstitialAd.isLoaded()) {
+                if (mInterstitialAd != null) {
                     isAdsLoad=true;
-                    mInterstitialAd.show();
+                    mInterstitialAd.show(this);
                 } else {
                     endGameMenu.setVisibility(View.VISIBLE);
                 }
@@ -1020,7 +1046,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
         hintCount=hintNumsBeg;
         if(hintCount==0)
-            rewardedAd = createAndLoadRewardedAd();
+            createAndLoadRewardedAd();
         else
             hintButton.setEnabled(true);
         misTextView.setText(prepairMistakeText());
@@ -1076,22 +1102,15 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            String curTime =simpleChronometer.getText().toString();
-            pauseChronoText.setText(curTime);
-            timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
-            simpleChronometer.stop();
+    @Override
+    public void onBackPressed() {
+        String curTime = simpleChronometer.getText().toString();
+        pauseChronoText.setText(curTime);
+        timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
+        simpleChronometer.stop();
 
-
-            pauseMenu.setVisibility(View.VISIBLE);
-            exitByBackKey();
-
-            //moveTaskToBack(false);
-
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+        pauseMenu.setVisibility(View.VISIBLE);
+        exitByBackKey();
     }
 
     protected void exitByBackKey() {
@@ -1127,15 +1146,16 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     @Override
     public void onPause() {
         super.onPause();
-        if(!mistakePageOpened)
-        if(!isAdsLoad) {
+        if(!mistakePageOpened) {
+            if (!isAdsLoad) {
 
-            String curTime = simpleChronometer.getText().toString();
-            pauseChronoText.setText(curTime);
-            timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
-            simpleChronometer.stop();
-            pauseMenu.setVisibility(View.VISIBLE);
-            grid.setEnabled(false);
+                String curTime = simpleChronometer.getText().toString();
+                pauseChronoText.setText(curTime);
+                timeWhenStopped = simpleChronometer.getBase() - SystemClock.elapsedRealtime();
+                simpleChronometer.stop();
+                pauseMenu.setVisibility(View.VISIBLE);
+                grid.setEnabled(false);
+            }
         }
         if(dialog != null && dialog.isShowing())
             dialog.dismiss();
@@ -1144,8 +1164,9 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
     @Override
     public void onStop() {
         super.onStop();
-        if(!gameFinished)
-        saveCurrentGame();
+        if(!gameFinished) {
+            saveCurrentGame();
+        }
         if(dialog != null && dialog.isShowing())
             dialog.dismiss();
     }
@@ -1202,28 +1223,27 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
         gameFinished();
     }
 
-    public RewardedAd createAndLoadRewardedAd() {
-        RewardedAd rewardedAd = new RewardedAd(this,
-                getResources().getString(R.string.admob_reward_pid));
-        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
-            @Override
-            public void onRewardedAdLoaded() {
-                // Ad successfully loaded.
-                hintButton.setEnabled(true);
+    public void createAndLoadRewardedAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, getResources().getString(R.string.admob_reward_pid),
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd ad) {
+                        rewardedAd = ad;
+                        // Ad successfully loaded.
+                        hintButton.setEnabled(true);
+                        Log.d("TAG", "AddLoaded");
+                    }
 
-                Log.d("TAG", "AddLoaded");
-            }
-
-            @Override
-            public void onRewardedAdFailedToLoad(LoadAdError adError) {
-                // Ad failed to load.
-                if(hintCount>0)
-                    hintButton.setEnabled(true);
-                Log.d("TAG", adError.toString());
-            }
-        };
-        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
-        return rewardedAd;
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError adError) {
+                        // Ad failed to load.
+                        rewardedAd = null;
+                        if (hintCount > 0)
+                            hintButton.setEnabled(true);
+                        Log.d("TAG", adError.toString());
+                    }
+                });
     }
 
     private String prepairMistakeText()
