@@ -8,10 +8,16 @@
     tools:context=".MainActivity">
 
     <RelativeLayout
+        android:id="@+id/upBannerPadding"
+        android:layout_width="match_parent"
+        android:layout_height="10dp">
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/upbanner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upBannerPadding">
         <at.markushi.ui.CircleButton
 
             android:id="@+id/btn_day_night"
@@ -19,7 +25,7 @@
             android:layout_alignParentStart="true"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
-            android:padding="2dp"
+            android:padding="3dp"
             android:layout_margin="1dp"
             android:src="@mipmap/ic_day_green"
             app:cb_color="?theme_color" />

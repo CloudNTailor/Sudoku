@@ -313,10 +313,7 @@ public  class GameActivity extends Activity implements SudokuLayout.OnCellHighli
 
                             if (dialog != null)
                                 dialog.dismiss();
-                           // if (word_list_label_group != null)
-                           //     word_list_label_group.setVisibility(View.VISIBLE);
-                            grid.setVisibility(View.VISIBLE);
-                           // upbanner.setVisibility(View.VISIBLE);
+                           grid.setVisibility(View.VISIBLE);
                             AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
                             anim.setDuration(500);
                             grid.startAnimation(anim);
