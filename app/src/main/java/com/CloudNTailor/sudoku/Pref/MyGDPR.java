@@ -16,7 +16,7 @@ public class MyGDPR {
         return new Bundle();
     }
 
-    public static void updateConsentStatus(final Activity act) {
+    public static void updateConsentStatus(final Activity act, Runnable onComplete) {
         ConsentRequestParameters params = new ConsentRequestParameters.Builder()
                 .setTagForUnderAgeOfConsent(false)
                 .build();
@@ -34,6 +34,9 @@ public class MyGDPR {
                                             loadAndShowError.getErrorCode(),
                                             loadAndShowError.getMessage()));
                                 }
+                                if (onComplete != null) {
+                                    onComplete.run();
+                                }
                             }
                     );
                 },
@@ -41,6 +44,9 @@ public class MyGDPR {
                     Log.w("MyGDPR", String.format("%s: %s",
                             requestConsentError.getErrorCode(),
                             requestConsentError.getMessage()));
+                    if (onComplete != null) {
+                        onComplete.run();
+                    }
                 });
     }
 }

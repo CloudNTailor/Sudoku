@@ -40,6 +40,12 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.games.GamesSignInClient;
+import com.google.android.gms.games.PlayGames;
+import com.google.android.gms.games.PlayGamesSdk;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.ump.UserMessagingPlatform;
+
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +57,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import at.markushi.ui.CircleButton;
 import hotchemi.android.rate.AppRate;
@@ -63,6 +70,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     private Button newButton;
     private Button continButton;
     private Button statButton;
+    private CircleButton loginButton;
     private Spinner difficultySpinner;
     private String[] stringArray;
     private String[] stringArrayLevelNames;
@@ -74,53 +82,61 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     private boolean day;
     private int indexOfSpinner;
 
+    private GamesSignInClient gamesSignInClient;
+    private final AtomicBoolean isMobileAdsInitializeCalled = new AtomicBoolean(false);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        day=Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_day_night),true);
-        if(!day) {
+        day = Settings.getBooleanValue(this, getResources().getString(R.string.pref_key_day_night), true);
+        if (!day) {
             setTheme(R.style.DarkAppTheme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        else {
+        } else {
             setTheme(R.style.AppTheme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, initializationStatus -> {});
         String langCode = Settings.getStringValue(this, getResources().getString(R.string.pref_key_language), null);
         String difLevel = Settings.getStringValue(this, getResources().getString(R.string.pref_key_difficulty), null);
-        soundOnOff = Settings.getBooleanValue(this,getResources().getString(R.string.pref_key_sound_onoff),true);
-        MobileAds.setAppMuted(!soundOnOff);
+        soundOnOff = Settings.getBooleanValue(this, getResources().getString(R.string.pref_key_sound_onoff), true);
 
 
+        // 1. start sdk
+        PlayGamesSdk.initialize(this);
+        // 2. get ready client
+        gamesSignInClient = PlayGames.getGamesSignInClient(this);
+
+
+        // 2. Otomatik giriş yapmayı dene
+        signInSilently();
 
         rateApp();
-        NotificationPeriodCounter=1;
+        NotificationPeriodCounter = 1;
 
-        difficultySpinner= (Spinner) findViewById(R.id.spinnerdifficulty);
+        difficultySpinner = (Spinner) findViewById(R.id.spinnerdifficulty);
 
         soundButton = (CircleButton) findViewById(R.id.btn_volume);
+        loginButton = (CircleButton) findViewById(R.id.btn_login);
         ActionBar actionBar = getActionBar();
-        if(actionBar != null)
-        	actionBar.hide();
+        if (actionBar != null)
+            actionBar.hide();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         Configuration config = getResources().getConfiguration();
         Locale locale = config.locale;
 
 
-
         //Day-night button operation
-        dayNightButton=(CircleButton) findViewById(R.id.btn_day_night);
-        if(day)
+        dayNightButton = (CircleButton) findViewById(R.id.btn_day_night);
+        if (day)
             dayNightButton.setImageResource(R.mipmap.ic_day_green);
         else
             dayNightButton.setImageResource(R.mipmap.ic_night_green);
 
 
-        if(langCode == null){
+        if (langCode == null) {
 
 
             langCode = locale.getLanguage();
@@ -130,67 +146,63 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             String[] builtInLanguages = getResources().getStringArray(R.array.language_codes);
             boolean found = false;
 
-            for(String code : builtInLanguages){
-                if(code.equals(langCode)){
+            for (String code : builtInLanguages) {
+                if (code.equals(langCode)) {
                     found = true;
                     break;
                 }
             }
 
-            if(!found){//make en default
+            if (!found) {//make en default
                 langCode = Constants.DEFAULT_LANGUAGE;
             }
 
             Settings.saveStringValue(this, getResources().getString(R.string.pref_key_language), langCode);
         }
 
-        MyGDPR.updateConsentStatus(MainActivity.this);
+        MyGDPR.updateConsentStatus(MainActivity.this, this::initializeMobileAdsSdk);
 
-        requestNewInterstitial();
+        if (UserMessagingPlatform.getConsentInformation(this).canRequestAds()) {
+            initializeMobileAdsSdk();
+        }
 
-        if(difLevel==null)
-        {
-            difLevel="41";
+        if (difLevel == null) {
+            difLevel = "41";
             Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), difLevel);
         }
 
-         boolean jobScheduled = NotificationJobScheduler.isJobServiceOn(this);
-         Log.e("NOTE",Boolean.toString(jobScheduled));
-         NotificationJobScheduler.scheduleJob(this);
+        boolean jobScheduled = NotificationJobScheduler.isJobServiceOn(this);
+        Log.e("NOTE", Boolean.toString(jobScheduled));
+        NotificationJobScheduler.scheduleJob(this);
 
 
         int dp = (int) (getResources().getDimension(R.dimen.word_size) / getResources().getDisplayMetrics().density);
 
-        Log.e("LSIZE",Integer.toString(dp));
+        Log.e("LSIZE", Integer.toString(dp));
 
 
+        indexOfSpinner = -1;
 
-         indexOfSpinner=-1;
+        stringArray = getResources().getStringArray(R.array.level_codes);
+        stringArrayLevelNames = getResources().getStringArray(R.array.level_names);
+        List<String> difLevelsList = new ArrayList<String>();
+        for (int i = 0; i < stringArrayLevelNames.length; i++) {
+            difLevelsList.add(stringArrayLevelNames[i]);
+            if (Integer.parseInt(stringArray[i]) == Integer.parseInt(difLevel))
+                indexOfSpinner = i;
+        }
 
-         stringArray = getResources().getStringArray(R.array.level_codes);
-         stringArrayLevelNames = getResources().getStringArray(R.array.level_names);
-         List<String> difLevelsList = new ArrayList<String>();
-         for(int i =0;i<stringArrayLevelNames.length;i++)
-         {
-             difLevelsList.add(stringArrayLevelNames[i]);
-             if(Integer.parseInt(stringArray[i])==Integer.parseInt(difLevel))
-                 indexOfSpinner=i;
-         }
-
-         if(!soundOnOff)
-         {
-             if(day)
-                 soundButton.setImageResource(R.mipmap.ic_volume_off_green);
-             else
-                 soundButton.setImageResource(R.mipmap.ic_volume_off_black);
-         }
-         else
-         {
-             if(day)
-                 soundButton.setImageResource(R.mipmap.ic_volume_on_green);
-             else
-                 soundButton.setImageResource(R.mipmap.ic_volume_on_black);
-         }
+        if (!soundOnOff) {
+            if (day)
+                soundButton.setImageResource(R.mipmap.ic_volume_off_green);
+            else
+                soundButton.setImageResource(R.mipmap.ic_volume_off_black);
+        } else {
+            if (day)
+                soundButton.setImageResource(R.mipmap.ic_volume_on_green);
+            else
+                soundButton.setImageResource(R.mipmap.ic_volume_on_black);
+        }
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_custom_textbox, difLevelsList);
@@ -206,48 +218,43 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         difficultySpinner.setOnItemSelectedListener(this);
 
 
-
-
-
-        newButton=(Button)findViewById(R.id.textButtonStart);
+        newButton = (Button) findViewById(R.id.textButtonStart);
         newButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(intent);
 
 
             }
         });
 
-        continButton=(Button) findViewById(R.id.textContinue);
+        continButton = (Button) findViewById(R.id.textContinue);
         LocalDm db = new LocalDm();
-        boolean avaibleGame = db.getSharedPreferenceBoolean(MainActivity.this,getString(R.string.key_saved_game_exists),false);
-        String difflevelName="";
-        int curtime=-1;
-        if(avaibleGame)
-        {
+        boolean avaibleGame = db.getSharedPreferenceBoolean(MainActivity.this, getString(R.string.key_saved_game_exists), false);
+        String difflevelName = "";
+        int curtime = -1;
+        if (avaibleGame) {
             continButton.setVisibility(View.VISIBLE);
-            difflevelName = db.getSharedPreference(MainActivity.this,getString(R.string.key_saved_game_diff),"");
-            curtime=  db.getSharedPreference(MainActivity.this,getString(R.string.key_saved_game_time),0);
+            difflevelName = db.getSharedPreference(MainActivity.this, getString(R.string.key_saved_game_diff), "");
+            curtime = db.getSharedPreference(MainActivity.this, getString(R.string.key_saved_game_time), 0);
             String timeMin = Converter.GetDurationFromSecondsLong(curtime);
 
-            String s1= getString(R.string.continue_button_text);
-            String s2= timeMin+"-"+difflevelName;
+            String s1 = getString(R.string.continue_button_text);
+            String s2 = timeMin + "-" + difflevelName;
 
             int n = s1.length();
             int m = s2.length();
-            Spannable span = new SpannableString(s1+"\n"+s2);
+            Spannable span = new SpannableString(s1 + "\n" + s2);
 
-            span.setSpan(new RelativeSizeSpan(1f),0,n,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            span.setSpan(new RelativeSizeSpan(0.8f),n,(n+m+1),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new RelativeSizeSpan(1f), 0, n, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new RelativeSizeSpan(0.8f), n, (n + m + 1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             continButton.setText(span);
 
 
-        }
-        else
+        } else
             continButton.setVisibility(View.INVISIBLE);
 
         continButton.setOnClickListener(new View.OnClickListener() {
@@ -256,11 +263,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             public void onClick(View v) {
 
 
-
-                if(interstitialAds != null)
-                {
-                    interstitialAds.setFullScreenContentCallback(new FullScreenContentCallback()
-                    {
+                if (interstitialAds != null) {
+                    interstitialAds.setFullScreenContentCallback(new FullScreenContentCallback() {
                         @Override
                         public void onAdDismissedFullScreenContent() {
                             Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -271,8 +275,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
                         }
                     });
                     interstitialAds.show(MainActivity.this);
-                }
-                else {
+                } else {
 
                     Intent intent = new Intent(MainActivity.this, GameActivity.class);
                     Bundle b = new Bundle();
@@ -285,7 +288,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             }
         });
 
-        statButton=(Button) findViewById(R.id.textStatic);
+        statButton = (Button) findViewById(R.id.textStatic);
         statButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -298,29 +301,30 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             }
         });
 
+        loginButton.setOnClickListener(v -> {
+            startManualSignIn();
+        });
         soundButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                if(!soundOnOff) {
+                if (!soundOnOff) {
 
-                    soundOnOff=true;
-                    if(day)
+                    soundOnOff = true;
+                    if (day)
                         soundButton.setImageResource(R.mipmap.ic_volume_on_green);
                     else
                         soundButton.setImageResource(R.mipmap.ic_volume_on_black);
 
-                }
-                else
-                {
-                    soundOnOff=false;
-                    if(day)
+                } else {
+                    soundOnOff = false;
+                    if (day)
                         soundButton.setImageResource(R.mipmap.ic_volume_off_green);
                     else
                         soundButton.setImageResource(R.mipmap.ic_volume_off_black);
                 }
-                Settings.saveBooleanValue(MainActivity.this, getResources().getString(R.string.pref_key_sound_onoff),soundOnOff);
+                Settings.saveBooleanValue(MainActivity.this, getResources().getString(R.string.pref_key_sound_onoff), soundOnOff);
                 MobileAds.setAppMuted(!soundOnOff);
             }
         });
@@ -331,17 +335,15 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             @Override
             public void onClick(View v) {
 
-                if(day) {
+                if (day) {
 
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    day=false;
-                }
-                else
-                {
+                    day = false;
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    day=true;
+                    day = true;
                 }
-                Settings.saveBooleanValue(MainActivity.this, getResources().getString(R.string.pref_key_day_night),day);
+                Settings.saveBooleanValue(MainActivity.this, getResources().getString(R.string.pref_key_day_night), day);
                 //MobileAds.setAppMuted(!soundOnOff);
 
                 recreate();
@@ -352,7 +354,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent.getCount()>0) {
+        if (parent.getCount() > 0) {
 
             String item = parent.getItemAtPosition(position).toString();
 
@@ -362,9 +364,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
                     break;
                 }
             }
-        }
-        else
-        {
+        } else {
             Settings.saveStringValue(this, getResources().getString(R.string.pref_key_difficulty), stringArray[0]);
         }
 
@@ -374,41 +374,55 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     public void onNothingSelected(AdapterView<?> parent) {
 
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         LocalDm db = new LocalDm();
-        boolean avaibleGame = db.getSharedPreferenceBoolean(MainActivity.this,getString(R.string.key_saved_game_exists),false);
-        String difflevelName="";
-        int curtime=-1;
-        if(avaibleGame)
-        {
+        boolean avaibleGame = db.getSharedPreferenceBoolean(MainActivity.this, getString(R.string.key_saved_game_exists), false);
+        String difflevelName = "";
+        int curtime = -1;
+        if (avaibleGame) {
             continButton.setVisibility(View.VISIBLE);
-            difflevelName = db.getSharedPreference(MainActivity.this,getString(R.string.key_saved_game_diff),"");
-            curtime=  db.getSharedPreference(MainActivity.this,getString(R.string.key_saved_game_time),0);
+            difflevelName = db.getSharedPreference(MainActivity.this, getString(R.string.key_saved_game_diff), "");
+            curtime = db.getSharedPreference(MainActivity.this, getString(R.string.key_saved_game_time), 0);
             String timeMin = Converter.GetDurationFromSecondsLong(curtime);
 
-            String s1= getString(R.string.continue_button_text);
-            String s2= timeMin+"-"+difflevelName;
+            String s1 = getString(R.string.continue_button_text);
+            String s2 = timeMin + "-" + difflevelName;
 
             int n = s1.length();
             int m = s2.length();
-            Spannable span = new SpannableString(s1+"\n"+s2);
+            Spannable span = new SpannableString(s1 + "\n" + s2);
 
-            span.setSpan(new RelativeSizeSpan(1f),0,n,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            span.setSpan(new RelativeSizeSpan(0.8f),n,(n+m+1),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new RelativeSizeSpan(1f), 0, n, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new RelativeSizeSpan(0.8f), n, (n + m + 1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             continButton.setText(span);
 
 
-        }
-        else
+        } else
             continButton.setVisibility(View.INVISIBLE);
+
+        if (isMobileAdsInitializeCalled.get()) {
+            requestNewInterstitial();
+        }
+    }
+
+    private void initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return;
+        }
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        MobileAds.setAppMuted(!soundOnOff);
         requestNewInterstitial();
     }
+
     private void requestNewInterstitial() {
+        if (!isMobileAdsInitializeCalled.get()) {
+            return;
+        }
         AdRequest adRequest = new AdRequest.Builder()
                 .addNetworkExtrasBundle(AdMobAdapter.class, MyGDPR.getBundleAd(this)).build();
 
@@ -427,8 +441,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     }
 
 
-    private void rateApp()
-    {
+    private void rateApp() {
 
         AppRate.with(this)
                 .setInstallDays(1)
@@ -439,13 +452,63 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         ;
     }
 
+    private void signInSilently() {
+        GamesSignInClient gamesSignInClient = PlayGames.getGamesSignInClient(this);
+
+        gamesSignInClient.isAuthenticated().addOnCompleteListener(task -> {
+            boolean isAuthenticated = (task.isSuccessful() && task.getResult().isAuthenticated());
+
+            if (isAuthenticated) {
+                PlayGames.getPlayersClient(this).getCurrentPlayer().addOnCompleteListener(playerTask -> {
+                    if (playerTask.isSuccessful()) {
+                        loginButton.setVisibility(View.INVISIBLE);
+                        String displayName = playerTask.getResult().getDisplayName();
+                        String playerId = playerTask.getResult().getPlayerId();
+                        Settings.saveStringValue(this, getResources().getString(R.string.pref_userId), playerId);
+                        Settings.saveStringValue(this, getResources().getString(R.string.pref_userDisplayName), displayName);
+
+                        // Burada kullanıcı adını UI'da gösterebilir veya kaydedebilirsin
+                       // Toast.makeText(MainActivity.this, "Hoş geldin " + displayName, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                loginButton.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void startManualSignIn() {
+        gamesSignInClient.signIn().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().isAuthenticated()) {
+                Log.d("SudokuLogin", "Giriş Başarılı!");
+                loginButton.setVisibility(View.INVISIBLE);
+
+
+                PlayGames.getPlayersClient(this).getCurrentPlayer().addOnCompleteListener(playerTask -> {
+                    if (playerTask.isSuccessful()) {
+                        String displayName = playerTask.getResult().getDisplayName();
+                        String playerId = playerTask.getResult().getPlayerId();
+                        Settings.saveStringValue(this, getResources().getString(R.string.pref_userId), playerId);
+                        Settings.saveStringValue(this, getResources().getString(R.string.pref_userDisplayName), displayName);
+
+                        // Burada kullanıcı adını UI'da gösterebilir veya kaydedebilirsin
+                        Toast.makeText(MainActivity.this, "Hoş geldin " + displayName, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Exception exception = task.getException();
+                if (exception instanceof com.google.android.gms.common.api.ApiException) {
+                    int statusCode = ((com.google.android.gms.common.api.ApiException) exception).getStatusCode();
+                    Log.e("SudokuLogin", "Hata Kodu: " + statusCode);
+                }
+                Log.e("SudokuLogin", "Giriş Başarısız: " + (exception != null ? exception.getMessage() : "Bilinmeyen hata  task successfull :"+task.isSuccessful() +" task auth:" + task.getResult().isAuthenticated()));
+                Toast.makeText(MainActivity.this, "Giriş yapılamadı!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
-
-
-
-
 }

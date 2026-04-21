@@ -73,7 +73,8 @@
 
     <string name="privacy_policy_url" translatable="false">https://sudokumaster.flycricket.io/privacy.html</string>
 
-
+    <string name="pref_userId" translatable="false">userId</string>
+    <string name="pref_userDisplayName" translatable="false">userDisplayName</string>
     <string name="pref_key_day_night" translatable="false">dayNnight</string>
 
     <string name="key_saved_game_exists" translatable="false">savedgameexists</string>
@@ -86,6 +87,9 @@
     <string name="key_saved_game_finished_board" translatable="false">savedgamefinishedboard</string>
     <string name="key_saved_game_all_move" translatable="false">savedgameallmove</string>
     <string name="key_saved_mistake_nums" translatable="false">mustakenums</string>
+
     <string name="clear_statistic">Delete Statistics</string>
 
+    <!-- Google Play Console'dan aldığın 12 haneli numara -->
+    <string name="app_id" translatable="false">854262468600</string>
 </resources>

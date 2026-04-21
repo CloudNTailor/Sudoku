@@ -43,7 +43,24 @@
             app:cb_color="?theme_color" />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/upbannerSecondRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upbanner">
+        <at.markushi.ui.CircleButton
 
+            android:id="@+id/btn_login"
+            android:layout_width="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="2dp"
+            android:layout_margin="1dp"
+            android:src="@drawable/outline_login_24"
+            app:cb_color="?theme_color" />
+
+    </RelativeLayout>
     <ImageView
         android:id="@+id/banner"
         android:layout_width="match_parent"
