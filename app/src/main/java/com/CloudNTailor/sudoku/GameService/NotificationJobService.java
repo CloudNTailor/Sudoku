@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import androidx.core.content.ContextCompat;
 
 import androidx.core.app.NotificationCompat;
 
@@ -29,7 +31,7 @@ public class NotificationJobService extends JobService {
 
         //Set up the notification content intent to launch the app when clicked
         PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                (this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -42,11 +44,18 @@ public class NotificationJobService extends JobService {
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setAutoCancel(true);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                NotificationJobScheduler.scheduleJob(getApplicationContext());
+                return false;
+            }
+        }
+
         manager.notify(0, builder.build());
 
         NotificationJobScheduler.scheduleJob(getApplicationContext());
 
-        return true;
+        return false;
     }
 
     /**
